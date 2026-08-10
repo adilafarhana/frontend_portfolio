@@ -1,123 +1,256 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-
-const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:8001",
-  withCredentials: true,
-  headers: {
-    Accept: "application/json",
-    "X-Requested-With": "XMLHttpRequest",
-  },
-});
+import AdminLayout from "./AdminLayout";
+import { getAdminUser } from "../utils/auth";
+import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const user = getAdminUser();
 
-  const handleLogout = async () => {
-    setLoading(true);
-    setError("");
-
-    try {
-      await apiClient.post("/logout");
-      navigate("/login");
-    } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          "Unable to log out. Please try again."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  const stats = [
+    {
+      title: "Projects",
+      count: "12",
+      icon: "📂",
+      path: "/admin/projects",
+      color: "linear-gradient(135deg, #a855f7, #6366f1)",
+      shadow: "rgba(168, 85, 247, 0.3)",
+    },
+    {
+      title: "Skills",
+      count: "18",
+      icon: "⚡",
+      path: "/admin/skills",
+      color: "linear-gradient(135deg, #3b82f6, #06b6d4)",
+      shadow: "rgba(59, 130, 246, 0.3)",
+    },
+    {
+      title: "Experience",
+      count: "4",
+      icon: "💼",
+      path: "/admin/experience",
+      color: "linear-gradient(135deg, #10b981, #059669)",
+      shadow: "rgba(16, 185, 129, 0.3)",
+    },
+    {
+      title: "Education",
+      count: "3",
+      icon: "🎓",
+      path: "/admin/education",
+      color: "linear-gradient(135deg, #f59e0b, #d97706)",
+      shadow: "rgba(245, 158, 11, 0.3)",
+    },
+    {
+      title: "Contact",
+      count: "5",
+      icon: "✉️",
+      path: "/admin/contact",
+      color: "linear-gradient(135deg, #ec4899, #f43f5e)",
+      shadow: "rgba(236, 72, 153, 0.3)",
+    },
+  ];
 
   return (
-    <div className="auth-page">
+    <AdminLayout title="Dashboard">
       <style>{`
-        .auth-page {
-          min-height: 100vh;
+        .dashboard-welcome {
+          background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(59, 130, 246, 0.12) 50%, rgba(6, 8, 19, 0.4) 100%);
+          border: 1px solid rgba(168, 85, 247, 0.25);
+          border-radius: 24px;
+          padding: 32px 36px;
+          margin-bottom: 36px;
+          backdrop-filter: blur(16px);
+          position: relative;
+          overflow: hidden;
+          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .dashboard-welcome::after {
+          content: '';
+          position: absolute;
+          top: -50%;
+          right: -10%;
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+          pointer-events: none;
+        }
+
+        .welcome-badge {
+          display: inline-block;
+          padding: 4px 12px;
+          background: rgba(168, 85, 247, 0.2);
+          border: 1px solid rgba(168, 85, 247, 0.35);
+          color: #c084fc;
+          border-radius: 20px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          margin-bottom: 12px;
+        }
+
+        .dashboard-welcome h2 {
+          margin: 0 0 10px 0;
+          font-size: 2rem;
+          font-weight: 800;
+          letter-spacing: -0.025em;
+          color: #ffffff;
+        }
+
+        .dashboard-welcome p {
+          margin: 0;
+          color: #cbd5e1;
+          font-size: 1.02rem;
+          line-height: 1.6;
+          max-width: 720px;
+        }
+
+        .stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+          gap: 22px;
+          margin-bottom: 36px;
+        }
+
+        .stat-card {
+          background: rgba(13, 17, 38, 0.85);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 22px;
+          padding: 24px;
+          text-decoration: none;
+          color: inherit;
           display: flex;
           align-items: center;
-          justify-content: center;
-          background: linear-gradient(135deg, #090b17 0%, #1e1940 100%);
-          color: #f4f5ff;
-          padding: 20px;
+          justify-content: space-between;
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .auth-card {
-          width: min(520px, 100%);
-          background: rgba(8, 12, 30, 0.92);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 24px;
-          box-shadow: 0 32px 90px rgba(0, 0, 0, 0.35);
-          padding: 36px 32px;
-          backdrop-filter: blur(14px);
+        .stat-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(168, 85, 247, 0.4);
+          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .auth-card h1 {
-          margin-bottom: 18px;
+        .stat-info .stat-title {
+          font-size: 0.92rem;
+          color: #94a3b8;
+          margin-bottom: 6px;
+          font-weight: 600;
+        }
+
+        .stat-info .stat-count {
           font-size: 2.1rem;
+          font-weight: 800;
+          color: #ffffff;
           letter-spacing: -0.03em;
         }
 
-        .auth-card p {
-          color: #b8bee6;
-          margin-bottom: 24px;
-          line-height: 1.6;
+        .stat-icon-wrapper {
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.6rem;
+          transition: transform 0.3s ease;
         }
 
-        .auth-button {
-          width: 100%;
-          border: none;
+        .stat-card:hover .stat-icon-wrapper {
+          transform: scale(1.08);
+        }
+
+        .section-box {
+          background: rgba(13, 17, 38, 0.85);
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 24px;
+          padding: 30px 34px;
+        }
+
+        .section-box h3 {
+          margin: 0 0 20px 0;
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: #ffffff;
+          letter-spacing: -0.02em;
+        }
+
+        .quick-links {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 14px;
+        }
+
+        .quick-link-btn {
+          padding: 12px 22px;
           border-radius: 14px;
-          padding: 14px 16px;
-          background: linear-gradient(135deg, #a855f7, #f97316);
-          color: #fff;
-          font-size: 1rem;
-          font-weight: 700;
-          cursor: pointer;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          color: #e2e8f0;
+          text-decoration: none;
+          font-weight: 600;
+          font-size: 0.95rem;
+          transition: all 0.25s ease;
+          display: flex;
+          align-items: center;
+          gap: 8px;
         }
 
-        .auth-button:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 18px 35px rgba(249, 115, 22, 0.3);
-        }
-
-        .auth-button:disabled {
-          opacity: 0.65;
-          cursor: not-allowed;
-          transform: none;
-          box-shadow: none;
-        }
-
-        .auth-error {
-          border-radius: 14px;
-          padding: 14px 16px;
-          background: rgba(255, 73, 73, 0.12);
-          color: #ffb3b3;
-          border: 1px solid rgba(255, 73, 73, 0.25);
-          margin-top: 18px;
+        .quick-link-btn:hover {
+          background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
+          border-color: rgba(168, 85, 247, 0.35);
+          color: #ffffff;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2);
         }
       `}</style>
 
-      <div className="auth-card">
-        <h1>Admin Dashboard</h1>
-        <p>Welcome to the admin dashboard. This page is available after successful authentication.</p>
-
-        <button
-          className="auth-button"
-          onClick={handleLogout}
-          disabled={loading}
-        >
-          {loading ? "Logging out..." : "Logout"}
-        </button>
-
-        {error && <div className="auth-error">{error}</div>}
+      <div className="dashboard-welcome">
+        <div className="welcome-badge">System Ready</div>
+        <h2>Welcome back{user?.name ? `, ${user.name}` : ""}! 👋</h2>
+        <p>
+          Manage your portfolio projects, tech skills, work history, academic background, and visitor contact submissions seamlessly from one modern workspace.
+        </p>
       </div>
-    </div>
+
+      <div className="stats-grid">
+        {stats.map((item) => (
+          <Link key={item.title} to={item.path} className="stat-card">
+            <div className="stat-info">
+              <div className="stat-title">{item.title}</div>
+              <div className="stat-count">{item.count}</div>
+            </div>
+            <div
+              className="stat-icon-wrapper"
+              style={{ background: item.color, boxShadow: `0 8px 22px ${item.shadow}` }}
+            >
+              {item.icon}
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      <div className="section-box">
+        <h3>Quick Navigation</h3>
+        <div className="quick-links">
+          <Link to="/admin/projects" className="quick-link-btn">
+            <span>📂</span> View Projects
+          </Link>
+          <Link to="/admin/skills" className="quick-link-btn">
+            <span>⚡</span> Manage Skills
+          </Link>
+          <Link to="/admin/experience" className="quick-link-btn">
+            <span>💼</span> Work Experience
+          </Link>
+          <Link to="/admin/education" className="quick-link-btn">
+            <span>🎓</span> Education Records
+          </Link>
+          <Link to="/admin/contact" className="quick-link-btn">
+            <span>✉️</span> Contact Submissions
+          </Link>
+        </div>
+      </div>
+    </AdminLayout>
   );
 };
 
