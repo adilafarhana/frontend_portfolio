@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import apiClient from "../utils/apiClient";
 import { clearAdminUser, getAdminUser } from "../utils/auth";
+import { useTheme } from "../utils/ThemeContext";
 
 const navItems = [
   { path: "/admin/dashboard", label: "Dashboard", icon: "📊" },
+  { path: "/admin/about", label: "About", icon: "👤" },
+  { path: "/admin/resume", label: "Resume", icon: "📄" },
   { path: "/admin/projects", label: "Projects", icon: "📂" },
   { path: "/admin/skills", label: "Skills", icon: "⚡" },
   { path: "/admin/experience", label: "Experience", icon: "💼" },
@@ -15,6 +18,7 @@ const navItems = [
 const AdminLayout = ({ children, title = "Admin Panel" }) => {
   const [loggingOut, setLoggingOut] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const user = getAdminUser();
@@ -38,10 +42,11 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
         .admin-layout {
           min-height: 100vh;
           display: flex;
-          background: #060813;
-          color: #f4f6ff;
+          background: var(--bg-primary);
+          color: var(--text-main);
           font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
           position: relative;
+          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Ambient Glow Mesh Background */
@@ -52,7 +57,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           right: -200px;
           width: 600px;
           height: 600px;
-          background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(6, 8, 19, 0) 70%);
+          background: var(--glow-radial);
           pointer-events: none;
           z-index: 0;
         }
@@ -64,7 +69,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           left: -200px;
           width: 600px;
           height: 600px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(6, 8, 19, 0) 70%);
+          background: var(--glow-radial-secondary);
           pointer-events: none;
           z-index: 0;
         }
@@ -72,8 +77,8 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
         /* Sidebar Styles */
         .admin-sidebar {
           width: 270px;
-          background: rgba(10, 14, 30, 0.85);
-          border-right: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-surface);
+          border-right: 1px solid var(--border-color);
           display: flex;
           flex-direction: column;
           position: fixed;
@@ -81,7 +86,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           bottom: 0;
           left: 0;
           z-index: 100;
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
           backdrop-filter: blur(16px);
         }
 
@@ -90,7 +95,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           display: flex;
           align-items: center;
           gap: 14px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-bottom: 1px solid var(--border-subtle);
         }
 
         .brand-logo {
@@ -111,9 +116,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           font-weight: 800;
           font-size: 1.15rem;
           letter-spacing: -0.02em;
-          background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: var(--text-main);
         }
 
         .sidebar-menu {
@@ -131,7 +134,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           gap: 14px;
           padding: 12px 18px;
           border-radius: 14px;
-          color: #94a3b8;
+          color: var(--text-muted);
           text-decoration: none;
           font-weight: 500;
           font-size: 0.95rem;
@@ -140,15 +143,15 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
         }
 
         .nav-item:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.05);
+          color: var(--text-main);
+          background: rgba(168, 85, 247, 0.08);
           transform: translateX(4px);
         }
 
         .nav-item.active {
-          color: #ffffff;
+          color: var(--text-main);
           background: linear-gradient(135deg, rgba(168, 85, 247, 0.22), rgba(59, 130, 246, 0.18));
-          border: 1px solid rgba(168, 85, 247, 0.35);
+          border: 1px solid var(--border-glow);
           font-weight: 700;
           box-shadow: 0 6px 20px rgba(168, 85, 247, 0.18);
         }
@@ -159,7 +162,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
 
         .sidebar-footer {
           padding: 18px 14px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid var(--border-subtle);
           display: flex;
           flex-direction: column;
           gap: 12px;
@@ -170,8 +173,8 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           align-items: center;
           gap: 12px;
           padding: 10px 12px;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.06);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 12px;
         }
 
@@ -196,7 +199,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
         .user-name {
           font-size: 0.88rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -204,7 +207,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
 
         .user-email {
           font-size: 0.75rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -215,7 +218,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           padding: 12px 14px;
           border: 1px solid rgba(239, 68, 68, 0.25);
           background: rgba(239, 68, 68, 0.08);
-          color: #fca5a5;
+          color: #ef4444;
           border-radius: 12px;
           font-weight: 700;
           font-size: 0.9rem;
@@ -229,7 +232,7 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
 
         .logout-btn:hover {
           background: rgba(239, 68, 68, 0.2);
-          color: #ffffff;
+          color: #dc2626;
           border-color: rgba(239, 68, 68, 0.45);
           box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
         }
@@ -252,32 +255,57 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
 
         .admin-header {
           padding: 22px 36px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+          border-bottom: 1px solid var(--border-color);
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: rgba(6, 8, 19, 0.82);
+          background: var(--bg-surface);
           backdrop-filter: blur(16px);
           position: sticky;
           top: 0;
           z-index: 90;
+          transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
         .header-title {
           font-size: 1.6rem;
           font-weight: 800;
           letter-spacing: -0.025em;
-          background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: var(--text-main);
           margin: 0;
+        }
+
+        .admin-header-actions {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .admin-theme-btn {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 16px;
+          border-radius: 20px;
+          border: 1px solid var(--border-color);
+          background: var(--bg-card);
+          color: var(--text-main);
+          font-size: 13px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.25s ease;
+        }
+
+        .admin-theme-btn:hover {
+          border-color: var(--accent-purple);
+          transform: translateY(-1px);
         }
 
         .mobile-toggle {
           display: none;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-          color: #fff;
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
+          color: var(--text-main);
           font-size: 1.3rem;
           padding: 6px 12px;
           border-radius: 10px;
@@ -368,13 +396,22 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
       <div className="admin-main">
         <header className="admin-header">
           <h1 className="header-title">{title}</h1>
-          <button
-            className="mobile-toggle"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            ☰
-          </button>
+          <div className="admin-header-actions">
+            <button
+              onClick={toggleTheme}
+              className="admin-theme-btn"
+              title="Toggle Light/Dark Theme"
+            >
+              <span>{theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}</span>
+            </button>
+            <button
+              className="mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              ☰
+            </button>
+          </div>
         </header>
 
         <main className="admin-body">{children}</main>

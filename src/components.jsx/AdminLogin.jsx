@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import apiClient from "../utils/apiClient";
-import { setAdminUser, isLoggedIn } from "../utils/auth";
+import { setAdminUser, isLoggedIn, clearAdminUser, getAdminUser } from "../utils/auth";
 
 const AdminLogin = () => {
   const [email, setEmail] = useState("adila@gmail.com");
@@ -10,12 +10,23 @@ const AdminLogin = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const currentUser = getAdminUser();
+  const loggedIn = isLoggedIn();
 
   useEffect(() => {
-    if (isLoggedIn()) {
-      navigate("/admin/dashboard", { replace: true });
+    const params = new URLSearchParams(location.search);
+    if (params.get("logout") === "true") {
+      clearAdminUser();
     }
-  }, [navigate]);
+  }, [location.search]);
+
+  const handleClearSession = () => {
+    clearAdminUser();
+    setError("");
+    window.location.reload();
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -24,13 +35,14 @@ const AdminLogin = () => {
 
     try {
       const res = await apiClient.post("/api/admin/login", { email, password });
-      if (res?.data?.user) {
-        setAdminUser(res.data.user, res.data.token || "");
-      }
+      const userData = res?.data?.user || res?.data?.data?.user || { email };
+      const tokenData = res?.data?.token || res?.data?.access_token || res?.data?.data?.token || "";
+      setAdminUser(userData, tokenData);
       navigate("/admin/dashboard");
     } catch (err) {
+      console.error("Admin login error:", err);
       const message =
-        err.response?.data?.message || "Login failed. Check credentials.";
+        err.response?.data?.message || err.response?.data?.error || "Login failed. Check backend connection & credentials.";
       setError(message);
     } finally {
       setLoading(false);
@@ -45,12 +57,13 @@ const AdminLogin = () => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #060813;
-          color: #f4f6ff;
+          background: var(--bg-primary);
+          color: var(--text-main);
           padding: 20px;
           position: relative;
           overflow: hidden;
           font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* Ambient Glow Circles */
@@ -61,7 +74,7 @@ const AdminLogin = () => {
           width: 450px;
           height: 450px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(6, 8, 19, 0) 70%);
+          background: var(--glow-radial);
           pointer-events: none;
           animation: floatOrb 8s ease-in-out infinite alternate;
         }
@@ -73,7 +86,7 @@ const AdminLogin = () => {
           width: 500px;
           height: 500px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(6, 8, 19, 0) 70%);
+          background: var(--glow-radial-secondary);
           pointer-events: none;
           animation: floatOrb 10s ease-in-out infinite alternate-reverse;
         }
@@ -85,10 +98,10 @@ const AdminLogin = () => {
 
         .auth-card {
           width: min(450px, 100%);
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 28px;
-          box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+          box-shadow: var(--shadow-card);
           padding: 44px 38px;
           backdrop-filter: blur(20px);
           position: relative;
@@ -127,13 +140,11 @@ const AdminLogin = () => {
           font-size: 2rem;
           font-weight: 800;
           letter-spacing: -0.025em;
-          background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
+          color: var(--text-main);
         }
 
         .auth-card p {
-          color: #94a3b8;
+          color: var(--text-muted);
           margin-bottom: 28px;
           line-height: 1.6;
           font-size: 0.95rem;
@@ -149,7 +160,7 @@ const AdminLogin = () => {
           font-size: 0.88rem;
           font-weight: 600;
           margin-bottom: 8px;
-          color: #cbd5e1;
+          color: var(--text-main);
         }
 
         .password-wrapper {
@@ -160,9 +171,9 @@ const AdminLogin = () => {
         .auth-form input {
           width: 100%;
           border-radius: 14px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          background: rgba(255, 255, 255, 0.04);
-          color: #ffffff;
+          border: 1px solid var(--input-border);
+          background: var(--input-bg);
+          color: var(--text-main);
           padding: 14px 18px;
           font-size: 0.98rem;
           outline: none;
@@ -177,7 +188,7 @@ const AdminLogin = () => {
         .auth-form input:focus {
           border-color: #a855f7;
           box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
-          background: rgba(255, 255, 255, 0.06);
+          background: var(--input-bg);
         }
 
         .eye-toggle-btn {
@@ -249,6 +260,52 @@ const AdminLogin = () => {
           </div>
         </div>
         <p>Welcome back! Enter your credentials to access the portfolio control center.</p>
+
+        {loggedIn && (
+          <div style={{
+            background: "rgba(59, 130, 246, 0.12)",
+            border: "1px solid rgba(59, 130, 246, 0.3)",
+            borderRadius: "14px",
+            padding: "14px 16px",
+            marginBottom: "20px",
+            fontSize: "0.9rem"
+          }}>
+            ℹ️ You are currently signed in as <strong>{currentUser?.email || "Admin"}</strong>.
+            <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+              <button
+                type="button"
+                onClick={() => navigate("/admin/dashboard")}
+                style={{
+                  background: "#3b82f6",
+                  color: "#fff",
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "6px 12px",
+                  fontSize: "0.82rem",
+                  fontWeight: "700",
+                  cursor: "pointer"
+                }}
+              >
+                Go to Dashboard ➔
+              </button>
+              <button
+                type="button"
+                onClick={handleClearSession}
+                style={{
+                  background: "transparent",
+                  color: "var(--text-muted)",
+                  border: "1px solid var(--border-color)",
+                  borderRadius: "8px",
+                  padding: "6px 12px",
+                  fontSize: "0.82rem",
+                  cursor: "pointer"
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          </div>
+        )}
 
         <form className="auth-form" onSubmit={handleSubmit}>
           <div>

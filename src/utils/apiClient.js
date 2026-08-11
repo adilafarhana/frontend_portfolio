@@ -25,4 +25,19 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+export const getMediaUrl = (path) => {
+  if (!path) return "";
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("blob:") ||
+    path.startsWith("data:")
+  ) {
+    return path;
+  }
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  return `${apiBaseURL}${cleanPath}`;
+};
+
+export { apiBaseURL };
 export default apiClient;

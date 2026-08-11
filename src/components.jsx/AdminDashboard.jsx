@@ -1,14 +1,57 @@
+import { useState, useEffect } from "react";
 import AdminLayout from "./AdminLayout";
 import { getAdminUser } from "../utils/auth";
 import { Link } from "react-router-dom";
+import apiClient from "../utils/apiClient";
 
 const AdminDashboard = () => {
   const user = getAdminUser();
+  const [counts, setCounts] = useState({
+    projects: "4",
+    skills: "12",
+    experience: "3",
+    education: "2",
+    contacts: "0",
+  });
+
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
+
+  const fetchDashboardStats = async () => {
+    try {
+      const [projRes, skillsRes, expRes, eduRes, contactRes] = await Promise.allSettled([
+        apiClient.get("/api/admin/projects"),
+        apiClient.get("/api/admin/skills"),
+        apiClient.get("/api/admin/experience"),
+        apiClient.get("/api/admin/education"),
+        apiClient.get("/api/admin/contacts"),
+      ]);
+
+      const parseCount = (res, defaultVal) => {
+        if (res.status === "fulfilled" && res.value?.data) {
+          const data = res.value.data.status ? res.value.data.data : res.value.data;
+          if (Array.isArray(data)) return String(data.length);
+        }
+        return defaultVal;
+      };
+
+      setCounts({
+        projects: parseCount(projRes, "4"),
+        skills: parseCount(skillsRes, "12"),
+        experience: parseCount(expRes, "3"),
+        education: parseCount(eduRes, "2"),
+        contacts: parseCount(contactRes, "0"),
+      });
+    } catch (err) {
+      console.error("Dashboard stats error:", err);
+    }
+  };
 
   const stats = [
     {
       title: "Projects",
-      count: "12",
+      count: counts.projects,
       icon: "📂",
       path: "/admin/projects",
       color: "linear-gradient(135deg, #a855f7, #6366f1)",
@@ -16,7 +59,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Skills",
-      count: "18",
+      count: counts.skills,
       icon: "⚡",
       path: "/admin/skills",
       color: "linear-gradient(135deg, #3b82f6, #06b6d4)",
@@ -24,7 +67,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Experience",
-      count: "4",
+      count: counts.experience,
       icon: "💼",
       path: "/admin/experience",
       color: "linear-gradient(135deg, #10b981, #059669)",
@@ -32,7 +75,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Education",
-      count: "3",
+      count: counts.education,
       icon: "🎓",
       path: "/admin/education",
       color: "linear-gradient(135deg, #f59e0b, #d97706)",
@@ -40,7 +83,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Contact",
-      count: "5",
+      count: counts.contacts,
       icon: "✉️",
       path: "/admin/contact",
       color: "linear-gradient(135deg, #ec4899, #f43f5e)",
@@ -52,15 +95,15 @@ const AdminDashboard = () => {
     <AdminLayout title="Dashboard">
       <style>{`
         .dashboard-welcome {
-          background: linear-gradient(135deg, rgba(168, 85, 247, 0.15) 0%, rgba(59, 130, 246, 0.12) 50%, rgba(6, 8, 19, 0.4) 100%);
-          border: 1px solid rgba(168, 85, 247, 0.25);
+          background: var(--bg-surface);
+          border: 1px solid var(--border-glow);
           border-radius: 24px;
           padding: 32px 36px;
           margin-bottom: 36px;
           backdrop-filter: blur(16px);
           position: relative;
           overflow: hidden;
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+          box-shadow: var(--shadow-card);
         }
 
         .dashboard-welcome::after {
@@ -71,7 +114,7 @@ const AdminDashboard = () => {
           width: 300px;
           height: 300px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+          background: var(--glow-radial);
           pointer-events: none;
         }
 
@@ -80,7 +123,7 @@ const AdminDashboard = () => {
           padding: 4px 12px;
           background: rgba(168, 85, 247, 0.2);
           border: 1px solid rgba(168, 85, 247, 0.35);
-          color: #c084fc;
+          color: var(--accent-purple);
           border-radius: 20px;
           font-size: 0.8rem;
           font-weight: 700;
@@ -94,12 +137,12 @@ const AdminDashboard = () => {
           font-size: 2rem;
           font-weight: 800;
           letter-spacing: -0.025em;
-          color: #ffffff;
+          color: var(--text-main);
         }
 
         .dashboard-welcome p {
           margin: 0;
-          color: #cbd5e1;
+          color: var(--text-muted);
           font-size: 1.02rem;
           line-height: 1.6;
           max-width: 720px;
@@ -113,8 +156,8 @@ const AdminDashboard = () => {
         }
 
         .stat-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 22px;
           padding: 24px;
           text-decoration: none;
@@ -123,17 +166,18 @@ const AdminDashboard = () => {
           align-items: center;
           justify-content: space-between;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: var(--shadow-card);
         }
 
         .stat-card:hover {
           transform: translateY(-5px);
-          border-color: rgba(168, 85, 247, 0.4);
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+          border-color: var(--border-glow);
+          box-shadow: var(--shadow-lg);
         }
 
         .stat-info .stat-title {
           font-size: 0.92rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           margin-bottom: 6px;
           font-weight: 600;
         }
@@ -141,7 +185,7 @@ const AdminDashboard = () => {
         .stat-info .stat-count {
           font-size: 2.1rem;
           font-weight: 800;
-          color: #ffffff;
+          color: var(--text-main);
           letter-spacing: -0.03em;
         }
 
@@ -154,6 +198,7 @@ const AdminDashboard = () => {
           justify-content: center;
           font-size: 1.6rem;
           transition: transform 0.3s ease;
+          color: #ffffff;
         }
 
         .stat-card:hover .stat-icon-wrapper {
@@ -161,17 +206,18 @@ const AdminDashboard = () => {
         }
 
         .section-box {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           padding: 30px 34px;
+          box-shadow: var(--shadow-card);
         }
 
         .section-box h3 {
           margin: 0 0 20px 0;
           font-size: 1.25rem;
           font-weight: 800;
-          color: #ffffff;
+          color: var(--text-main);
           letter-spacing: -0.02em;
         }
 
@@ -184,9 +230,9 @@ const AdminDashboard = () => {
         .quick-link-btn {
           padding: 12px 22px;
           border-radius: 14px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #e2e8f0;
+          background: var(--input-bg);
+          border: 1px solid var(--border-color);
+          color: var(--text-main);
           text-decoration: none;
           font-weight: 600;
           font-size: 0.95rem;
@@ -198,8 +244,8 @@ const AdminDashboard = () => {
 
         .quick-link-btn:hover {
           background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
-          border-color: rgba(168, 85, 247, 0.35);
-          color: #ffffff;
+          border-color: var(--border-glow);
+          color: var(--text-main);
           transform: translateY(-2px);
           box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2);
         }

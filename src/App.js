@@ -1,5 +1,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ThemeProvider } from './utils/ThemeContext';
 import AdminLogin from './components.jsx/AdminLogin';
 import AdminDashboard from './components.jsx/AdminDashboard';
 import AdminProjects from './components.jsx/AdminProjects';
@@ -7,93 +8,118 @@ import AdminSkills from './components.jsx/AdminSkills';
 import AdminExperience from './components.jsx/AdminExperience';
 import AdminEducation from './components.jsx/AdminEducation';
 import AdminContact from './components.jsx/AdminContact';
-import ProtectedRoute from './components.jsx/ProtectedRoute';
-import Nav from './components.jsx/Nav';
+import AdminAbout from './components.jsx/AdminAbout';
 import About from './components.jsx/About';
-import Project from './components.jsx/Project';
-import Contact from './components.jsx/Contact';
+import Skills from './components.jsx/Skills';
+import Experience from './components.jsx/Experience';
+import Projects from './components.jsx/Projects';
+import ProjectDetails from './components.jsx/ProjectDetails';
 import Resume from './components.jsx/Resume';
+import Contact from './components.jsx/Contact';
+import Home from './components.jsx/Home';
+import AdminResume from './components.jsx/AdminResume';
+import ProtectedRoute from './components.jsx/ProtectedRoute';
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Admin auth route */}
-        <Route path="/admin/login" element={<AdminLogin />} />
+    <ThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/experience" element={<Experience />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetails />} />
+          <Route path="/resume" element={<Resume />} />
+          <Route path="/contact" element={<Contact />} />
 
-        {/* Protected Admin Routes */}
-        <Route
-          path="/admin/dashboard"
-          element={
-            <ProtectedRoute>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/projects"
-          element={
-            <ProtectedRoute>
-              <AdminProjects />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/skills"
-          element={
-            <ProtectedRoute>
-              <AdminSkills />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/experience"
-          element={
-            <ProtectedRoute>
-              <AdminExperience />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/education"
-          element={
-            <ProtectedRoute>
-              <AdminEducation />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/messages"
-          element={
-            <ProtectedRoute>
-              <AdminContact />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/admin/contact"
-          element={
-            <ProtectedRoute>
-              <AdminContact />
-            </ProtectedRoute>
-          }
-        />
+          {/* Admin Auth Route */}
+          <Route path="/admin/login" element={<AdminLogin />} />
 
-        {/* Redirect legacy /login and /dashboard to /admin/* */}
-        <Route path="/login" element={<Navigate to="/admin/login" replace />} />
-        <Route path="/dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+          {/* Protected Admin Routes */}
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/about"
+            element={
+              <ProtectedRoute>
+                <AdminAbout />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/resume"
+            element={
+              <ProtectedRoute>
+                <AdminResume />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/projects"
+            element={
+              <ProtectedRoute>
+                <AdminProjects />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/skills"
+            element={
+              <ProtectedRoute>
+                <AdminSkills />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/experience"
+            element={
+              <ProtectedRoute>
+                <AdminExperience />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/education"
+            element={
+              <ProtectedRoute>
+                <AdminEducation />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/messages"
+            element={
+              <ProtectedRoute>
+                <AdminContact />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/contact"
+            element={
+              <ProtectedRoute>
+                <AdminContact />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* Public portfolio routes */}
-        <Route path="/NAN" element={<Nav />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/project" element={<Project />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/resume" element={<Resume />} />
-
-        {/* Root → admin login */}
-        <Route path="/" element={<Navigate to="/admin/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+          {/* Admin Shortcuts & Wildcards */}
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/login" element={<Navigate to="/admin/login" replace />} />
+          <Route path="/dashboard" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

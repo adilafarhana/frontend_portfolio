@@ -163,17 +163,17 @@ const AdminContact = () => {
         }
 
         .stat-badge {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           padding: 10px 18px;
           border-radius: 14px;
           font-size: 0.88rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           font-weight: 500;
         }
 
         .stat-badge strong {
-          color: #ffffff;
+          color: var(--text-main);
           margin-left: 6px;
           font-weight: 800;
         }
@@ -190,8 +190,8 @@ const AdminContact = () => {
 
         /* Controls bar */
         .controls-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 18px 22px;
           margin-bottom: 28px;
@@ -200,6 +200,7 @@ const AdminContact = () => {
           align-items: center;
           flex-wrap: wrap;
           backdrop-filter: blur(12px);
+          box-shadow: var(--shadow-card);
         }
 
         .search-wrapper {
@@ -211,10 +212,10 @@ const AdminContact = () => {
         .search-input {
           width: 100%;
           padding: 12px 18px 12px 42px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           transition: all 0.25s ease;
@@ -230,24 +231,24 @@ const AdminContact = () => {
           left: 14px;
           top: 50%;
           transform: translateY(-50%);
-          color: #94a3b8;
+          color: var(--text-muted);
           font-size: 1rem;
         }
 
         .filter-select {
           padding: 12px 18px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           cursor: pointer;
         }
 
         .filter-select option {
-          background: #0d1126;
-          color: #fff;
+          background: var(--modal-bg);
+          color: var(--text-main);
         }
 
         /* Contact Cards List */
@@ -258,8 +259,8 @@ const AdminContact = () => {
         }
 
         .contact-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 22px;
           padding: 22px 26px;
           display: flex;
@@ -268,7 +269,8 @@ const AdminContact = () => {
           gap: 18px;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           cursor: pointer;
-          position: relative;
+          box-shadow: var(--shadow-card);
+        }  position: relative;
         }
 
         .contact-card.unread {
@@ -307,7 +309,7 @@ const AdminContact = () => {
         .contact-name {
           font-weight: 800;
           font-size: 1.1rem;
-          color: #ffffff;
+          color: var(--text-main);
           letter-spacing: -0.01em;
         }
 
@@ -320,7 +322,7 @@ const AdminContact = () => {
         .contact-subject {
           font-size: 0.96rem;
           font-weight: 700;
-          color: #e2e8f0;
+          color: var(--text-main);
           margin-bottom: 6px;
           white-space: nowrap;
           overflow: hidden;
@@ -329,7 +331,7 @@ const AdminContact = () => {
 
         .contact-snippet {
           font-size: 0.9rem;
-          color: #cbd5e1;
+          color: var(--text-muted);
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -346,7 +348,7 @@ const AdminContact = () => {
         .contact-date {
           font-size: 0.82rem;
           font-weight: 500;
-          color: #94a3b8;
+          color: var(--text-dim);
           white-space: nowrap;
         }
 
@@ -371,33 +373,33 @@ const AdminContact = () => {
         .btn-read-toggle {
           background: rgba(59, 130, 246, 0.15);
           border: 1px solid rgba(59, 130, 246, 0.3);
-          color: #93c5fd;
+          color: #3b82f6;
         }
 
         .btn-read-toggle:hover {
           background: rgba(59, 130, 246, 0.3);
-          color: #ffffff;
+          color: var(--text-main);
         }
 
         .btn-delete {
           background: rgba(239, 68, 68, 0.15);
           border: 1px solid rgba(239, 68, 68, 0.3);
-          color: #fca5a5;
+          color: #ef4444;
         }
 
         .btn-delete:hover {
           background: rgba(239, 68, 68, 0.3);
-          color: #ffffff;
+          color: #dc2626;
         }
 
         /* Empty State */
         .empty-state {
-          background: rgba(13, 17, 38, 0.8);
-          border: 1px dashed rgba(255, 255, 255, 0.15);
+          background: var(--bg-card);
+          border: 1px dashed var(--border-color);
           border-radius: 20px;
           padding: 60px 20px;
           text-align: center;
-          color: #b8bee6;
+          color: var(--text-muted);
         }
 
         .empty-icon {
@@ -406,7 +408,7 @@ const AdminContact = () => {
         }
 
         .empty-state h3 {
-          color: #ffffff;
+          color: var(--text-main);
           font-size: 1.3rem;
           margin-bottom: 8px;
         }
@@ -428,12 +430,12 @@ const AdminContact = () => {
         }
 
         .modal-card {
-          background: #0d1126;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--modal-bg);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           width: 100%;
           max-width: 640px;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          box-shadow: var(--shadow-lg);
           animation: modalFade 0.25s ease-out;
         }
 
@@ -444,7 +446,7 @@ const AdminContact = () => {
 
         .modal-header {
           padding: 20px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -453,14 +455,14 @@ const AdminContact = () => {
         .modal-title {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0;
         }
 
         .close-btn {
           background: none;
           border: none;
-          color: #8c94c5;
+          color: var(--text-muted);
           font-size: 1.4rem;
           cursor: pointer;
           padding: 4px 8px;
@@ -468,8 +470,8 @@ const AdminContact = () => {
         }
 
         .close-btn:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.06);
+          color: var(--text-main);
+          background: rgba(236, 72, 153, 0.1);
         }
 
         .modal-body {
@@ -477,8 +479,8 @@ const AdminContact = () => {
         }
 
         .sender-box {
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--input-bg);
+          border: 1px solid var(--border-color);
           border-radius: 14px;
           padding: 16px;
           margin-bottom: 20px;
@@ -494,7 +496,7 @@ const AdminContact = () => {
         .sender-name {
           font-size: 1.1rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
         }
 
         .sender-email {
@@ -504,11 +506,11 @@ const AdminContact = () => {
         }
 
         .contact-full-text {
-          background: rgba(0, 0, 0, 0.25);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-primary);
+          border: 1px solid var(--border-color);
           border-radius: 14px;
           padding: 18px;
-          color: #e5e7eb;
+          color: var(--text-main);
           font-size: 0.95rem;
           line-height: 1.7;
           white-space: pre-wrap;

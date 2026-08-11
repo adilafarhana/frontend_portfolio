@@ -184,17 +184,17 @@ const AdminEducation = () => {
         }
 
         .stat-badge {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           padding: 10px 18px;
           border-radius: 14px;
           font-size: 0.88rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           font-weight: 500;
         }
 
         .stat-badge strong {
-          color: #ffffff;
+          color: var(--text-main);
           margin-left: 6px;
           font-weight: 800;
         }
@@ -222,12 +222,13 @@ const AdminEducation = () => {
 
         /* Controls bar */
         .controls-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 18px 22px;
           margin-bottom: 28px;
           backdrop-filter: blur(12px);
+          box-shadow: var(--shadow-card);
         }
 
         .search-wrapper {
@@ -238,10 +239,10 @@ const AdminEducation = () => {
         .search-input {
           width: 100%;
           padding: 12px 18px 12px 42px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           transition: all 0.25s ease;
@@ -257,7 +258,7 @@ const AdminEducation = () => {
           left: 14px;
           top: 50%;
           transform: translateY(-50%);
-          color: #94a3b8;
+          color: var(--text-muted);
           font-size: 1rem;
         }
 
@@ -269,20 +270,21 @@ const AdminEducation = () => {
         }
 
         .edu-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           padding: 24px 28px;
           display: flex;
           flex-direction: column;
           gap: 16px;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: var(--shadow-card);
         }
 
         .edu-card:hover {
           transform: translateY(-4px);
           border-color: rgba(245, 158, 11, 0.4);
-          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+          box-shadow: var(--shadow-lg);
         }
 
         .edu-degree {
@@ -402,12 +404,12 @@ const AdminEducation = () => {
         }
 
         .modal-card {
-          background: #0d1126;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--modal-bg);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           width: 100%;
           max-width: 580px;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          box-shadow: var(--shadow-lg);
           animation: modalFade 0.25s ease-out;
         }
 
@@ -418,7 +420,7 @@ const AdminEducation = () => {
 
         .modal-header {
           padding: 20px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -427,14 +429,14 @@ const AdminEducation = () => {
         .modal-title {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0;
         }
 
         .close-btn {
           background: none;
           border: none;
-          color: #8c94c5;
+          color: var(--text-muted);
           font-size: 1.4rem;
           cursor: pointer;
           padding: 4px 8px;
@@ -442,8 +444,8 @@ const AdminEducation = () => {
         }
 
         .close-btn:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.06);
+          color: var(--text-main);
+          background: rgba(245, 158, 11, 0.1);
         }
 
         .modal-body {
@@ -458,17 +460,17 @@ const AdminEducation = () => {
           display: block;
           font-size: 0.88rem;
           font-weight: 600;
-          color: #d8dbf3;
+          color: var(--text-main);
           margin-bottom: 8px;
         }
 
         .form-input, .form-textarea {
           width: 100%;
           padding: 12px 16px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #ffffff;
+          color: var(--text-main);
           font-size: 0.95rem;
           outline: none;
           box-sizing: border-box;

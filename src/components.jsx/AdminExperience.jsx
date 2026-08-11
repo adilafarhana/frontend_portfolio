@@ -216,17 +216,17 @@ const AdminExperience = () => {
         }
 
         .stat-badge {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           padding: 10px 18px;
           border-radius: 14px;
           font-size: 0.88rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           font-weight: 500;
         }
 
         .stat-badge strong {
-          color: #ffffff;
+          color: var(--text-main);
           margin-left: 6px;
           font-weight: 800;
         }
@@ -254,8 +254,8 @@ const AdminExperience = () => {
 
         /* Controls bar */
         .controls-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 18px 22px;
           margin-bottom: 28px;
@@ -263,6 +263,7 @@ const AdminExperience = () => {
           gap: 18px;
           align-items: center;
           backdrop-filter: blur(12px);
+          box-shadow: var(--shadow-card);
         }
 
         .search-wrapper {
@@ -273,10 +274,10 @@ const AdminExperience = () => {
         .search-input {
           width: 100%;
           padding: 12px 18px 12px 42px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           transition: all 0.25s ease;
@@ -292,7 +293,7 @@ const AdminExperience = () => {
           left: 14px;
           top: 50%;
           transform: translateY(-50%);
-          color: #94a3b8;
+          color: var(--text-muted);
           font-size: 1rem;
         }
 
@@ -304,17 +305,18 @@ const AdminExperience = () => {
         }
 
         .exp-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 24px;
           transition: all 0.25s ease;
           position: relative;
+          box-shadow: var(--shadow-card);
         }
 
         .exp-card:hover {
           border-color: rgba(16, 185, 129, 0.35);
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+          box-shadow: var(--shadow-lg);
           transform: translateY(-2px);
         }
 
@@ -330,14 +332,14 @@ const AdminExperience = () => {
         .exp-role {
           font-size: 1.25rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0 0 4px 0;
         }
 
         .exp-company {
           font-size: 1rem;
           font-weight: 600;
-          color: #34d399;
+          color: #10b981;
           display: flex;
           align-items: center;
           gap: 6px;
@@ -350,9 +352,9 @@ const AdminExperience = () => {
         }
 
         .date-badge {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #b8bee6;
+          background: var(--input-bg);
+          border: 1px solid var(--border-color);
+          color: var(--text-muted);
           font-size: 0.82rem;
           padding: 4px 12px;
           border-radius: 20px;
@@ -362,7 +364,7 @@ const AdminExperience = () => {
         .current-badge {
           background: rgba(16, 185, 129, 0.2);
           border: 1px solid rgba(16, 185, 129, 0.4);
-          color: #34d399;
+          color: #10b981;
           font-size: 0.78rem;
           padding: 4px 10px;
           border-radius: 20px;
@@ -370,7 +372,7 @@ const AdminExperience = () => {
         }
 
         .exp-description {
-          color: #d1d5db;
+          color: var(--text-muted);
           font-size: 0.92rem;
           line-height: 1.6;
           margin-bottom: 16px;
@@ -385,9 +387,9 @@ const AdminExperience = () => {
         }
 
         .tech-tag {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: #a5b4fc;
+          background: var(--input-bg);
+          border: 1px solid var(--border-color);
+          color: var(--text-main);
           font-size: 0.78rem;
           padding: 4px 10px;
           border-radius: 8px;
@@ -398,12 +400,12 @@ const AdminExperience = () => {
           justify-content: space-between;
           align-items: center;
           padding-top: 14px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid var(--border-color);
         }
 
         .sort-order-text {
           font-size: 0.8rem;
-          color: #8c94c5;
+          color: var(--text-dim);
         }
 
         .action-buttons {
@@ -484,14 +486,14 @@ const AdminExperience = () => {
         }
 
         .modal-card {
-          background: #0d1126;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--modal-bg);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           width: 100%;
           max-width: 620px;
           max-height: 90vh;
           overflow-y: auto;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          box-shadow: var(--shadow-lg);
           animation: modalFade 0.25s ease-out;
         }
 
@@ -502,7 +504,7 @@ const AdminExperience = () => {
 
         .modal-header {
           padding: 20px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -511,14 +513,14 @@ const AdminExperience = () => {
         .modal-title {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0;
         }
 
         .close-btn {
           background: none;
           border: none;
-          color: #8c94c5;
+          color: var(--text-muted);
           font-size: 1.4rem;
           cursor: pointer;
           padding: 4px 8px;
@@ -526,8 +528,8 @@ const AdminExperience = () => {
         }
 
         .close-btn:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.06);
+          color: var(--text-main);
+          background: rgba(16, 185, 129, 0.1);
         }
 
         .modal-body {
@@ -542,17 +544,17 @@ const AdminExperience = () => {
           display: block;
           font-size: 0.88rem;
           font-weight: 600;
-          color: #d8dbf3;
+          color: var(--text-main);
           margin-bottom: 8px;
         }
 
         .form-input, .form-textarea {
           width: 100%;
           padding: 12px 16px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #ffffff;
+          color: var(--text-main);
           font-size: 0.95rem;
           outline: none;
           box-sizing: border-box;

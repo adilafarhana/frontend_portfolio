@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AdminLayout from "./AdminLayout";
-import apiClient from "../utils/apiClient";
+import apiClient, { getMediaUrl } from "../utils/apiClient";
 
 const AdminProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -244,17 +244,17 @@ const AdminProjects = () => {
         }
 
         .stat-badge {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           padding: 10px 18px;
           border-radius: 14px;
           font-size: 0.88rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           font-weight: 500;
         }
 
         .stat-badge strong {
-          color: #ffffff;
+          color: var(--text-main);
           margin-left: 6px;
           font-weight: 800;
         }
@@ -282,8 +282,8 @@ const AdminProjects = () => {
 
         /* Search and Filter Bar */
         .controls-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 18px 22px;
           margin-bottom: 28px;
@@ -292,6 +292,7 @@ const AdminProjects = () => {
           align-items: center;
           flex-wrap: wrap;
           backdrop-filter: blur(12px);
+          box-shadow: var(--shadow-card);
         }
 
         .search-wrapper {
@@ -303,10 +304,10 @@ const AdminProjects = () => {
         .search-input {
           width: 100%;
           padding: 12px 18px 12px 42px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           transition: all 0.25s ease;
@@ -322,16 +323,16 @@ const AdminProjects = () => {
           left: 14px;
           top: 50%;
           transform: translateY(-50%);
-          color: #94a3b8;
+          color: var(--text-muted);
           font-size: 1rem;
         }
 
         .filter-select {
           padding: 12px 18px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           cursor: pointer;
@@ -343,8 +344,8 @@ const AdminProjects = () => {
         }
 
         .filter-select option {
-          background: #0d1126;
-          color: #fff;
+          background: var(--modal-bg);
+          color: var(--text-main);
         }
 
         /* Projects Grid */
@@ -355,14 +356,21 @@ const AdminProjects = () => {
         }
 
         .project-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           position: relative;
+          box-shadow: var(--shadow-card);
+        }
+
+        .project-card:hover {
+          transform: translateY(-6px);
+          border-color: var(--border-glow);
+          box-shadow: var(--shadow-lg);
         }
 
         .project-card:hover {
@@ -459,14 +467,14 @@ const AdminProjects = () => {
         .project-title {
           font-size: 1.25rem;
           font-weight: 800;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0 0 8px 0;
           letter-spacing: -0.02em;
         }
 
         .project-description {
           font-size: 0.9rem;
-          color: #cbd5e1;
+          color: var(--text-muted);
           line-height: 1.6;
           margin-bottom: 18px;
           display: -webkit-box;
@@ -483,9 +491,9 @@ const AdminProjects = () => {
         }
 
         .tech-tag {
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.09);
-          color: #a5b4fc;
+          background: var(--input-bg);
+          border: 1px solid var(--border-color);
+          color: var(--text-main);
           font-size: 0.76rem;
           font-weight: 600;
           padding: 4px 10px;
@@ -495,7 +503,7 @@ const AdminProjects = () => {
         .project-footer {
           margin-top: auto;
           padding-top: 16px;
-          border-top: 1px solid rgba(255, 255, 255, 0.06);
+          border-top: 1px solid var(--border-color);
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -507,7 +515,7 @@ const AdminProjects = () => {
         }
 
         .link-icon-btn {
-          color: #94a3b8;
+          color: var(--text-muted);
           text-decoration: none;
           font-size: 1.05rem;
           padding: 6px 10px;
@@ -591,14 +599,14 @@ const AdminProjects = () => {
         }
 
         .modal-card {
-          background: #0d1126;
-          border: 1px solid rgba(255, 255, 255, 0.14);
+          background: var(--modal-bg);
+          border: 1px solid var(--border-color);
           border-radius: 28px;
           width: 100%;
           max-width: 650px;
           max-height: 90vh;
           overflow-y: auto;
-          box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+          box-shadow: var(--shadow-lg);
           display: flex;
           flex-direction: column;
           animation: modalFade 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -606,7 +614,7 @@ const AdminProjects = () => {
 
         .modal-header {
           padding: 20px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -615,14 +623,14 @@ const AdminProjects = () => {
         .modal-title {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0;
         }
 
         .close-btn {
           background: none;
           border: none;
-          color: #8c94c5;
+          color: var(--text-muted);
           font-size: 1.4rem;
           cursor: pointer;
           padding: 4px 8px;
@@ -630,8 +638,8 @@ const AdminProjects = () => {
         }
 
         .close-btn:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.06);
+          color: var(--text-main);
+          background: rgba(168, 85, 247, 0.1);
         }
 
         .modal-body {
@@ -648,17 +656,17 @@ const AdminProjects = () => {
           display: block;
           font-size: 0.88rem;
           font-weight: 600;
-          color: #d8dbf3;
+          color: var(--text-main);
           margin-bottom: 8px;
         }
 
         .form-input, .form-textarea, .form-select {
           width: 100%;
           padding: 12px 16px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #ffffff;
+          color: var(--text-main);
           font-size: 0.95rem;
           outline: none;
           box-sizing: border-box;
@@ -676,8 +684,8 @@ const AdminProjects = () => {
         }
 
         .form-select option {
-          background: #0d1126;
-          color: #ffffff;
+          background: var(--modal-bg);
+          color: var(--text-main);
         }
 
         .form-error {
@@ -948,7 +956,7 @@ const AdminProjects = () => {
 
                 {project.project_image ? (
                   <img
-                    src={project.project_image}
+                    src={getMediaUrl(project.project_image)}
                     alt={project.title}
                     className="project-image-banner"
                     onError={(e) => {
@@ -1235,7 +1243,7 @@ const AdminProjects = () => {
             <div className="modal-body">
               {selectedProject.project_image && (
                 <img
-                  src={selectedProject.project_image}
+                  src={getMediaUrl(selectedProject.project_image)}
                   alt={selectedProject.title}
                   className="detail-banner"
                   onError={(e) => (e.target.style.display = "none")}

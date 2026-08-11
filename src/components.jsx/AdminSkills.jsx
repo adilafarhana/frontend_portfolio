@@ -190,17 +190,17 @@ const AdminSkills = () => {
         }
 
         .stat-badge {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           padding: 10px 18px;
           border-radius: 14px;
           font-size: 0.88rem;
-          color: #94a3b8;
+          color: var(--text-muted);
           font-weight: 500;
         }
 
         .stat-badge strong {
-          color: #ffffff;
+          color: var(--text-main);
           margin-left: 6px;
           font-weight: 800;
         }
@@ -228,8 +228,8 @@ const AdminSkills = () => {
 
         /* Controls bar */
         .controls-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 18px 22px;
           margin-bottom: 28px;
@@ -238,6 +238,7 @@ const AdminSkills = () => {
           align-items: center;
           flex-wrap: wrap;
           backdrop-filter: blur(12px);
+          box-shadow: var(--shadow-card);
         }
 
         .search-wrapper {
@@ -249,10 +250,10 @@ const AdminSkills = () => {
         .search-input {
           width: 100%;
           padding: 12px 18px 12px 42px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #fff;
+          color: var(--text-main);
           font-size: 0.92rem;
           outline: none;
           transition: all 0.25s ease;
@@ -268,7 +269,7 @@ const AdminSkills = () => {
           left: 14px;
           top: 50%;
           transform: translateY(-50%);
-          color: #94a3b8;
+          color: var(--text-muted);
           font-size: 1rem;
         }
 
@@ -281,9 +282,9 @@ const AdminSkills = () => {
         .category-tab {
           padding: 10px 18px;
           border-radius: 12px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          background: rgba(255, 255, 255, 0.03);
-          color: #94a3b8;
+          border: 1px solid var(--border-color);
+          background: var(--input-bg);
+          color: var(--text-muted);
           font-size: 0.88rem;
           font-weight: 600;
           cursor: pointer;
@@ -291,14 +292,14 @@ const AdminSkills = () => {
         }
 
         .category-tab:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.08);
+          color: var(--text-main);
+          background: rgba(59, 130, 246, 0.1);
         }
 
         .category-tab.active {
           background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(6, 182, 212, 0.2));
           border-color: rgba(59, 130, 246, 0.4);
-          color: #ffffff;
+          color: var(--text-main);
           font-weight: 700;
           box-shadow: 0 4px 16px rgba(59, 130, 246, 0.2);
         }
@@ -323,7 +324,7 @@ const AdminSkills = () => {
           content: '';
           flex: 1;
           height: 1px;
-          background: linear-gradient(90deg, rgba(59, 130, 246, 0.3), rgba(255, 255, 255, 0.04));
+          background: linear-gradient(90deg, rgba(59, 130, 246, 0.3), var(--border-color));
         }
 
         /* Skills Grid */
@@ -334,99 +335,82 @@ const AdminSkills = () => {
         }
 
         .skill-card {
-          background: rgba(13, 17, 38, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.08);
+          background: var(--bg-card);
+          border: 1px solid var(--border-color);
           border-radius: 20px;
           padding: 18px 22px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: var(--shadow-card);
         }
 
         .skill-card:hover {
           transform: translateY(-4px);
           border-color: rgba(59, 130, 246, 0.4);
-          box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35);
+          box-shadow: var(--shadow-lg);
         }
 
-        .skill-left {
+        .skill-main {
           display: flex;
           align-items: center;
           gap: 14px;
         }
 
-        .skill-icon-box {
-          width: 46px;
-          height: 46px;
-          border-radius: 14px;
-          background: rgba(59, 130, 246, 0.14);
-          border: 1px solid rgba(59, 130, 246, 0.3);
+        .skill-icon-badge {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(6, 182, 212, 0.15));
+          border: 1px solid rgba(59, 130, 246, 0.25);
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.4rem;
-          box-shadow: 0 4px 14px rgba(59, 130, 246, 0.15);
+          font-size: 1.25rem;
         }
 
-        .skill-info .skill-name {
-          font-weight: 800;
-          font-size: 1.05rem;
-          color: #ffffff;
-          margin-bottom: 4px;
-          letter-spacing: -0.01em;
-        }
-
-        .skill-info .skill-meta {
-          display: flex;
-          gap: 8px;
-          align-items: center;
-        }
-
-        .badge-category {
-          font-size: 0.74rem;
+        .skill-name {
           font-weight: 700;
-          padding: 3px 10px;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #a5b4fc;
+          font-size: 1.05rem;
+          color: var(--text-main);
+          margin-bottom: 2px;
         }
 
-        .sort-tag {
-          font-size: 0.74rem;
-          color: #94a3b8;
+        .skill-meta {
+          font-size: 0.8rem;
+          color: var(--text-muted);
         }
 
-        .action-buttons {
+        .skill-actions {
           display: flex;
+          align-items: center;
           gap: 6px;
         }
 
         .btn-action {
-          border: none;
-          padding: 6px 10px;
-          border-radius: 8px;
-          font-size: 0.82rem;
-          font-weight: 600;
+          width: 34px;
+          height: 34px;
+          border-radius: 10px;
+          border: 1px solid var(--border-color);
+          background: var(--input-bg);
+          color: var(--text-muted);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.9rem;
           cursor: pointer;
           transition: all 0.2s ease;
         }
 
-        .btn-edit {
-          background: rgba(59, 130, 246, 0.15);
-          border: 1px solid rgba(59, 130, 246, 0.3);
-          color: #93c5fd;
-        }
-
         .btn-edit:hover {
-          background: rgba(59, 130, 246, 0.3);
-          color: #ffffff;
+          background: rgba(59, 130, 246, 0.2);
+          border-color: rgba(59, 130, 246, 0.4);
+          color: var(--text-main);
         }
 
         .btn-delete {
-          background: rgba(239, 68, 68, 0.15);
-          border: 1px solid rgba(239, 68, 68, 0.3);
+          border-color: rgba(239, 68, 68, 0.2);
           color: #fca5a5;
         }
 
@@ -437,12 +421,12 @@ const AdminSkills = () => {
 
         /* Empty State */
         .empty-state {
-          background: rgba(13, 17, 38, 0.8);
-          border: 1px dashed rgba(255, 255, 255, 0.15);
+          background: var(--bg-card);
+          border: 1px dashed var(--border-color);
           border-radius: 20px;
           padding: 60px 20px;
           text-align: center;
-          color: #b8bee6;
+          color: var(--text-muted);
         }
 
         .empty-icon {
@@ -451,7 +435,7 @@ const AdminSkills = () => {
         }
 
         .empty-state h3 {
-          color: #ffffff;
+          color: var(--text-main);
           font-size: 1.3rem;
           margin-bottom: 8px;
         }
@@ -463,7 +447,7 @@ const AdminSkills = () => {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(5, 7, 18, 0.85);
+          background: rgba(5, 7, 18, 0.7);
           backdrop-filter: blur(8px);
           z-index: 1000;
           display: flex;
@@ -473,12 +457,12 @@ const AdminSkills = () => {
         }
 
         .modal-card {
-          background: #0d1126;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--modal-bg);
+          border: 1px solid var(--border-color);
           border-radius: 24px;
           width: 100%;
           max-width: 500px;
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+          box-shadow: var(--shadow-lg);
           animation: modalFade 0.25s ease-out;
         }
 
@@ -489,7 +473,7 @@ const AdminSkills = () => {
 
         .modal-header {
           padding: 20px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid var(--border-color);
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -498,14 +482,14 @@ const AdminSkills = () => {
         .modal-title {
           font-size: 1.3rem;
           font-weight: 700;
-          color: #ffffff;
+          color: var(--text-main);
           margin: 0;
         }
 
         .close-btn {
           background: none;
           border: none;
-          color: #8c94c5;
+          color: var(--text-muted);
           font-size: 1.4rem;
           cursor: pointer;
           padding: 4px 8px;
@@ -513,8 +497,8 @@ const AdminSkills = () => {
         }
 
         .close-btn:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.06);
+          color: var(--text-main);
+          background: rgba(168, 85, 247, 0.1);
         }
 
         .modal-body {
@@ -529,17 +513,17 @@ const AdminSkills = () => {
           display: block;
           font-size: 0.88rem;
           font-weight: 600;
-          color: #d8dbf3;
+          color: var(--text-main);
           margin-bottom: 8px;
         }
 
         .form-input, .form-select {
           width: 100%;
           padding: 12px 16px;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--input-bg);
+          border: 1px solid var(--input-border);
           border-radius: 12px;
-          color: #ffffff;
+          color: var(--text-main);
           font-size: 0.95rem;
           outline: none;
           box-sizing: border-box;
@@ -552,8 +536,8 @@ const AdminSkills = () => {
         }
 
         .form-select option {
-          background: #0d1126;
-          color: #ffffff;
+          background: var(--modal-bg);
+          color: var(--text-main);
         }
 
         .form-error {
