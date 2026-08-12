@@ -7,15 +7,13 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
-     * Seed the application's database.
+     * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        $this->call([
-            UserSeeder::class,
-        ]);
+        // $this->call('UsersTableSeeder');
     }
 }
