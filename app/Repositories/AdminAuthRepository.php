@@ -22,7 +22,7 @@ class AdminAuthRepository implements AdminAuthInterface
             return response()->json([
                 'status' => false,
                 'message' => 'Validation Error',
-                'errors' => $validator->errors()
+                'errors' => $validator->errors() 
             ], 422);
         }
 
