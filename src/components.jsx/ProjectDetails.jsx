@@ -230,14 +230,26 @@ const ProjectDetails = () => {
           </div>
         ) : (
           <div className="detail-editorial-card">
-            {project.project_image && (
-              <img
-                src={getMediaUrl(project.project_image)}
-                alt={project.title}
-                className="detail-banner-element"
-                onError={(e) => (e.target.style.display = "none")}
-              />
-            )}
+            <img
+              src={
+                project.project_image
+                  ? getMediaUrl(project.project_image)
+                  : project.title?.toLowerCase().includes("kallose") || project.title?.toLowerCase().includes("shopping")
+                  ? "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1100&auto=format&fit=crop&q=85"
+                  : project.title?.toLowerCase().includes("task") || project.title?.toLowerCase().includes("academic")
+                  ? "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1100&auto=format&fit=crop&q=85"
+                  : project.title?.toLowerCase().includes("vehicle") || project.title?.toLowerCase().includes("car")
+                  ? "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1100&auto=format&fit=crop&q=85"
+                  : "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1100&auto=format&fit=crop&q=85"
+              }
+              alt={project.title}
+              className="detail-banner-element"
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src =
+                  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1100&auto=format&fit=crop&q=85";
+              }}
+            />
 
             <div className="detail-header-flex">
               <div>

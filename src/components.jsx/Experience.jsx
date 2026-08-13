@@ -195,7 +195,7 @@ const Experience = () => {
           <div className="experience-eyebrow">■ Career Trajectory</div>
           <h1 className="experience-big-headline">Experience & Education</h1>
           <p style={{ color: "var(--text-muted)", maxWidth: "600px", margin: "0 auto", fontSize: "1.05rem" }}>
-            A chronological timeline of my engineering roles, product deployments, and formal academic foundation.
+            A chronological timeline of my backend development roles, company projects, and formal academic foundation.
           </p>
         </div>
 

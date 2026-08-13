@@ -48,7 +48,7 @@ const About = () => {
   };
 
   const displayName = aboutData?.full_name || "Adila Farhana";
-  const displayTitle = aboutData?.professional_title || "Full-Stack Developer";
+  const displayTitle = aboutData?.professional_title?.toLowerCase().includes("backend") ? aboutData.professional_title : "Backend Developer";
   const displayAvatar = aboutData?.profile_image
     ? getMediaUrl(aboutData.profile_image)
     : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80";

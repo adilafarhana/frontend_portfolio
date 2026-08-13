@@ -334,7 +334,7 @@ const Contact = () => {
                 Direct Channels
               </h2>
               <p style={{ color: "var(--text-muted)", fontSize: "0.95rem", lineHeight: "1.7" }}>
-                Available for full-time engineering roles, freelance architectural contracts, and software consultations.
+                Available for full-time backend developer roles, freelance projects, and web development consultations.
               </p>
             </div>
 

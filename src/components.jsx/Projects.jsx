@@ -240,7 +240,7 @@ const Projects = () => {
       <main className="portix-projects-container">
         <div className="projects-header-editorial">
           <div className="projects-eyebrow">■ Selected Works</div>
-          <h1 className="projects-big-headline">Engineering Projects</h1>
+          <h1 className="projects-big-headline">Featured Projects</h1>
           <p style={{ color: "var(--text-muted)", maxWidth: "600px", margin: "0 auto", fontSize: "1.05rem" }}>
             A curated portfolio of scalable web applications, API microservices, and interactive client experiences.
           </p>
@@ -299,31 +299,26 @@ const Projects = () => {
               return (
                 <div key={project.id} className="project-editorial-card">
                   <Link to={`/projects/${slug}`} className="project-thumbnail-wrap">
-                    {project.project_image ? (
-                      <img
-                        src={getMediaUrl(project.project_image)}
-                        alt={project.title}
-                        className="project-thumbnail-img"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src =
-                            "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=80";
-                        }}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          fontSize: "3rem",
-                        }}
-                      >
-                        💻
-                      </div>
-                    )}
+                    <img
+                      src={
+                        project.project_image
+                          ? getMediaUrl(project.project_image)
+                          : project.title?.toLowerCase().includes("kallose") || project.title?.toLowerCase().includes("shopping")
+                          ? "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=700&auto=format&fit=crop&q=80"
+                          : project.title?.toLowerCase().includes("task") || project.title?.toLowerCase().includes("academic")
+                          ? "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&auto=format&fit=crop&q=80"
+                          : project.title?.toLowerCase().includes("vehicle") || project.title?.toLowerCase().includes("car")
+                          ? "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&auto=format&fit=crop&q=80"
+                          : "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&auto=format&fit=crop&q=80"
+                      }
+                      alt={project.title}
+                      className="project-thumbnail-img"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=700&auto=format&fit=crop&q=80";
+                      }}
+                    />
 
                     {project.featured && (
                       <div style={{ position: "absolute", top: "14px", left: "14px", background: "var(--accent-orange)", color: "#ffffff", fontWeight: "900", fontSize: "0.75rem", padding: "4px 12px", borderRadius: "6px", textTransform: "uppercase" }}>
