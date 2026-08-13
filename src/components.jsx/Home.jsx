@@ -1002,8 +1002,8 @@ const Home = () => {
         }
 
         .process-dark-card {
-          background: #000000;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-light);
           border-radius: 20px;
           padding: 32px 24px;
           display: flex;
@@ -1011,13 +1011,13 @@ const Home = () => {
           justify-content: space-between;
           min-height: 240px;
           transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+          box-shadow: var(--shadow-sm);
         }
 
         .process-dark-card:hover {
           border-color: var(--accent-orange);
           transform: translateY(-6px);
-          box-shadow: 0 16px 40px rgba(240, 90, 40, 0.25);
+          box-shadow: var(--shadow-orange);
         }
 
         .process-card-icon {
@@ -1032,13 +1032,13 @@ const Home = () => {
           font-weight: 900;
           letter-spacing: 0.04em;
           text-transform: uppercase;
-          color: #ffffff;
+          color: var(--text-pure-white);
           margin-bottom: 16px;
         }
 
         .process-card-desc {
           font-size: 0.88rem;
-          color: #a1a1aa;
+          color: var(--text-muted);
           line-height: 1.6;
           margin: 0;
         }

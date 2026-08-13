@@ -1,21 +1,38 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  User,
+  FileText,
+  FolderGit2,
+  Zap,
+  Briefcase,
+  GraduationCap,
+  Mail,
+  ExternalLink,
+  LogOut,
+  Sun,
+  Moon,
+  Menu,
+  X,
+  ChevronRight,
+} from "lucide-react";
 import apiClient from "../utils/apiClient";
 import { clearAdminUser, getAdminUser } from "../utils/auth";
 import { useTheme } from "../utils/ThemeContext";
 
 const navItems = [
-  { path: "/admin/dashboard", label: "Dashboard", icon: "📊" },
-  { path: "/admin/about", label: "About", icon: "👤" },
-  { path: "/admin/resume", label: "Resume", icon: "📄" },
-  { path: "/admin/projects", label: "Projects", icon: "📂" },
-  { path: "/admin/skills", label: "Skills", icon: "⚡" },
-  { path: "/admin/experience", label: "Experience", icon: "💼" },
-  { path: "/admin/education", label: "Education", icon: "🎓" },
-  { path: "/admin/contact", label: "Contact", icon: "✉️" },
+  { path: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { path: "/admin/about", label: "About Me", icon: User },
+  { path: "/admin/resume", label: "Resume & CV", icon: FileText },
+  { path: "/admin/projects", label: "Projects", icon: FolderGit2 },
+  { path: "/admin/skills", label: "Skills Stack", icon: Zap },
+  { path: "/admin/experience", label: "Experience", icon: Briefcase },
+  { path: "/admin/education", label: "Education", icon: GraduationCap },
+  { path: "/admin/contact", label: "Inquiries", icon: Mail },
 ];
 
-const AdminLayout = ({ children, title = "Admin Panel" }) => {
+const AdminLayout = ({ children, title = "Dashboard" }) => {
   const [loggingOut, setLoggingOut] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
@@ -37,48 +54,22 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
   };
 
   return (
-    <div className="admin-layout">
+    <div className="portix-admin-shell">
       <style>{`
-        .admin-layout {
+        .portix-admin-shell {
           min-height: 100vh;
           display: flex;
           background: var(--bg-primary);
-          color: var(--text-main);
-          font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+          color: var(--text-light);
+          font-family: var(--font-main);
           position: relative;
-          transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* Ambient Glow Mesh Background */
-        .admin-layout::before {
-          content: '';
-          position: fixed;
-          top: -200px;
-          right: -200px;
-          width: 600px;
-          height: 600px;
-          background: var(--glow-radial);
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        .admin-layout::after {
-          content: '';
-          position: fixed;
-          bottom: -200px;
-          left: -200px;
-          width: 600px;
-          height: 600px;
-          background: var(--glow-radial-secondary);
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        /* Sidebar Styles */
-        .admin-sidebar {
-          width: 270px;
+        /* Sidebar Container */
+        .admin-editorial-sidebar {
+          width: 280px;
           background: var(--bg-surface);
-          border-right: 1px solid var(--border-color);
+          border-right: 1px solid var(--border-subtle);
           display: flex;
           flex-direction: column;
           position: fixed;
@@ -86,335 +77,405 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           bottom: 0;
           left: 0;
           z-index: 100;
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease;
-          backdrop-filter: blur(16px);
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .sidebar-brand {
-          padding: 24px 20px;
-          display: flex;
-          align-items: center;
-          gap: 14px;
+        @media (max-width: 1024px) {
+          .admin-editorial-sidebar {
+            transform: translateX(-100%);
+          }
+          .admin-editorial-sidebar.mobile-open {
+            transform: translateX(0);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+          }
+        }
+
+        /* Sidebar Brand */
+        .admin-sidebar-brand {
+          padding: 28px 24px;
           border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .brand-logo {
-          width: 40px;
-          height: 40px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: 800;
-          color: #ffffff;
-          font-size: 1.25rem;
-          box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
-        }
-
-        .brand-title {
-          font-weight: 800;
-          font-size: 1.15rem;
-          letter-spacing: -0.02em;
-          color: var(--text-main);
-        }
-
-        .sidebar-menu {
-          flex: 1;
-          padding: 22px 14px;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          overflow-y: auto;
-        }
-
-        .nav-item {
-          display: flex;
-          align-items: center;
-          gap: 14px;
-          padding: 12px 18px;
-          border-radius: 14px;
-          color: var(--text-muted);
-          text-decoration: none;
-          font-weight: 500;
-          font-size: 0.95rem;
-          transition: all 0.25s ease;
-          border: 1px solid transparent;
-        }
-
-        .nav-item:hover {
-          color: var(--text-main);
-          background: rgba(168, 85, 247, 0.08);
-          transform: translateX(4px);
-        }
-
-        .nav-item.active {
-          color: var(--text-main);
-          background: linear-gradient(135deg, rgba(168, 85, 247, 0.22), rgba(59, 130, 246, 0.18));
-          border: 1px solid var(--border-glow);
-          font-weight: 700;
-          box-shadow: 0 6px 20px rgba(168, 85, 247, 0.18);
-        }
-
-        .nav-icon {
-          font-size: 1.2rem;
-        }
-
-        .sidebar-footer {
-          padding: 18px 14px;
-          border-top: 1px solid var(--border-subtle);
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-        }
-
-        .user-info {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 10px 12px;
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: 12px;
-        }
-
-        .user-avatar {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #3b82f6, #06b6d4);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 0.9rem;
-          font-weight: 700;
-          color: #fff;
-          box-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
-        }
-
-        .user-details {
-          overflow: hidden;
-        }
-
-        .user-name {
-          font-size: 0.88rem;
-          font-weight: 700;
-          color: var(--text-main);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .user-email {
-          font-size: 0.75rem;
-          color: var(--text-muted);
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .logout-btn {
-          width: 100%;
-          padding: 12px 14px;
-          border: 1px solid rgba(239, 68, 68, 0.25);
-          background: rgba(239, 68, 68, 0.08);
-          color: #ef4444;
-          border-radius: 12px;
-          font-weight: 700;
-          font-size: 0.9rem;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          transition: all 0.2s ease;
-        }
-
-        .logout-btn:hover {
-          background: rgba(239, 68, 68, 0.2);
-          color: #dc2626;
-          border-color: rgba(239, 68, 68, 0.45);
-          box-shadow: 0 4px 16px rgba(239, 68, 68, 0.25);
-        }
-
-        .logout-btn:disabled {
-          opacity: 0.6;
-          cursor: not-allowed;
-        }
-
-        /* Main Content Area */
-        .admin-main {
-          flex: 1;
-          margin-left: 270px;
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
-          position: relative;
-          z-index: 10;
-        }
-
-        .admin-header {
-          padding: 22px 36px;
-          border-bottom: 1px solid var(--border-color);
           display: flex;
           align-items: center;
           justify-content: space-between;
-          background: var(--bg-surface);
-          backdrop-filter: blur(16px);
-          position: sticky;
-          top: 0;
-          z-index: 90;
-          transition: background-color 0.3s ease, border-color 0.3s ease;
         }
 
-        .header-title {
-          font-size: 1.6rem;
+        .admin-brand-logo {
+          font-family: var(--font-display);
+          font-size: 1.4rem;
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          text-transform: uppercase;
+          text-decoration: none;
+          color: var(--text-pure-white);
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .admin-portal-badge {
+          background: rgba(240, 90, 40, 0.12);
+          border: 1px solid rgba(240, 90, 40, 0.3);
+          color: var(--accent-orange);
+          font-size: 0.68rem;
           font-weight: 800;
-          letter-spacing: -0.025em;
-          color: var(--text-main);
-          margin: 0;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          padding: 3px 8px;
+          border-radius: 6px;
         }
 
-        .admin-header-actions {
+        /* Nav List */
+        .admin-nav-list {
+          flex: 1;
+          padding: 20px 14px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+          overflow-y: auto;
+        }
+
+        .admin-nav-item {
           display: flex;
           align-items: center;
           gap: 12px;
+          padding: 12px 16px;
+          border-radius: 12px;
+          text-decoration: none;
+          color: var(--text-muted);
+          font-weight: 700;
+          font-size: 0.88rem;
+          letter-spacing: 0.02em;
+          transition: all 0.2s ease;
+          border: 1px solid transparent;
         }
 
-        .admin-theme-btn {
+        .admin-nav-item:hover {
+          color: var(--text-pure-white);
+          background: var(--bg-surface-elevated);
+          border-color: var(--border-subtle);
+        }
+
+        .admin-nav-item.active {
+          color: #ffffff;
+          background: var(--accent-orange);
+          border-color: var(--accent-orange);
+          box-shadow: 0 6px 20px rgba(240, 90, 40, 0.35);
+        }
+
+        .admin-nav-item.active .admin-nav-icon {
+          color: #ffffff;
+        }
+
+        .admin-nav-icon {
+          color: var(--accent-orange);
+          transition: color 0.2s ease;
+        }
+
+        /* Sidebar Footer */
+        .admin-sidebar-footer {
+          padding: 20px 16px;
+          border-top: 1px solid var(--border-subtle);
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .admin-public-link-btn {
           display: flex;
           align-items: center;
-          gap: 6px;
-          padding: 8px 16px;
-          border-radius: 20px;
-          border: 1px solid var(--border-color);
-          background: var(--bg-card);
-          color: var(--text-main);
-          font-size: 13px;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.25s ease;
-        }
-
-        .admin-theme-btn:hover {
-          border-color: var(--accent-purple);
-          transform: translateY(-1px);
-        }
-
-        .mobile-toggle {
-          display: none;
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          color: var(--text-main);
-          font-size: 1.3rem;
-          padding: 6px 12px;
+          justify-content: space-between;
+          padding: 10px 14px;
           border-radius: 10px;
-          cursor: pointer;
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-subtle);
+          text-decoration: none;
+          color: var(--text-light);
+          font-size: 0.82rem;
+          font-weight: 700;
+          transition: all 0.2s ease;
         }
 
-        .admin-body {
+        .admin-public-link-btn:hover {
+          border-color: var(--accent-orange);
+          color: var(--accent-orange);
+        }
+
+        .admin-logout-btn {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 14px;
+          border-radius: 10px;
+          background: transparent;
+          border: 1px solid rgba(239, 68, 68, 0.25);
+          color: #f87171;
+          font-size: 0.82rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          width: 100%;
+        }
+
+        .admin-logout-btn:hover {
+          background: rgba(239, 68, 68, 0.12);
+          border-color: #ef4444;
+          color: #ef4444;
+        }
+
+        /* Main Workspace Content Area */
+        .admin-main-stage {
           flex: 1;
-          padding: 36px;
+          margin-left: 280px;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+        }
+
+        @media (max-width: 1024px) {
+          .admin-main-stage {
+            margin-left: 0;
+          }
+        }
+
+        /* Top Header Bar */
+        .admin-top-header {
+          height: 76px;
+          background: var(--bg-surface);
+          border-bottom: 1px solid var(--border-subtle);
+          padding: 0 36px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: sticky;
+          top: 0;
+          z-index: 90;
+          backdrop-filter: blur(16px);
         }
 
         @media (max-width: 768px) {
-          .admin-sidebar {
-            transform: translateX(-100%);
+          .admin-top-header {
+            padding: 0 16px;
           }
+        }
 
-          .admin-sidebar.open {
-            transform: translateX(0);
-          }
+        .admin-header-title-wrap {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+        }
 
-          .admin-main {
-            margin-left: 0;
-          }
+        .admin-header-h1 {
+          font-family: var(--font-display);
+          font-size: 1.35rem;
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: -0.01em;
+          color: var(--text-pure-white);
+          margin: 0;
+        }
 
-          .mobile-toggle {
-            display: block;
-          }
+        .admin-header-controls {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+        }
 
-          .admin-header {
-            padding: 18px 20px;
-          }
+        .admin-theme-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-subtle);
+          color: var(--text-light);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
 
-          .admin-body {
-            padding: 20px;
+        .admin-theme-btn:hover {
+          border-color: var(--accent-orange);
+          color: var(--accent-orange);
+          transform: translateY(-1px);
+        }
+
+        .admin-user-badge {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 6px 14px 6px 8px;
+          border-radius: 30px;
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-subtle);
+        }
+
+        .admin-avatar-circle {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          background: var(--accent-orange);
+          color: #ffffff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 900;
+          font-size: 0.8rem;
+        }
+
+        .admin-user-email {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: var(--text-light);
+          max-width: 160px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        @media (max-width: 640px) {
+          .admin-user-email {
+            display: none;
           }
+        }
+
+        /* Mobile Hamburger */
+        .admin-mobile-toggle {
+          display: none;
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-subtle);
+          color: var(--text-light);
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
+        @media (max-width: 1024px) {
+          .admin-mobile-toggle {
+            display: flex;
+          }
+        }
+
+        /* Workspace Content Padding */
+        .admin-content-body {
+          flex: 1;
+          padding: 36px;
+          max-width: 1360px;
+          width: 100%;
+          margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+          .admin-content-body {
+            padding: 20px 16px;
+          }
+        }
+
+        /* Overlay */
+        .admin-mobile-overlay {
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(4px);
+          z-index: 95;
         }
       `}</style>
 
+      {/* Mobile Drawer Overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="admin-mobile-overlay"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <aside className={`admin-sidebar ${mobileMenuOpen ? "open" : ""}`}>
-        <div className="sidebar-brand">
-          <div className="brand-logo">A</div>
-          <span className="brand-title">Portfolio Admin</span>
+      <aside className={`admin-editorial-sidebar ${mobileMenuOpen ? "mobile-open" : ""}`}>
+        <div className="admin-sidebar-brand">
+          <Link to="/admin/dashboard" className="admin-brand-logo">
+            <span style={{ color: "var(--accent-orange)" }}>✱</span>
+            <span>ADILA</span>
+          </Link>
+          <span className="admin-portal-badge">PORTAL</span>
         </div>
 
-        <nav className="sidebar-menu">
+        <nav className="admin-nav-list">
           {navItems.map((item) => {
+            const Icon = item.icon;
             const isActive = location.pathname === item.path;
             return (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`nav-item ${isActive ? "active" : ""}`}
                 onClick={() => setMobileMenuOpen(false)}
+                className={`admin-nav-item ${isActive ? "active" : ""}`}
               >
-                <span className="nav-icon">{item.icon}</span>
+                <Icon size={18} className="admin-nav-icon" />
                 <span>{item.label}</span>
               </Link>
             );
           })}
         </nav>
 
-        <div className="sidebar-footer">
-          {user && (
-            <div className="user-info">
-              <div className="user-avatar">
-                {user.name ? user.name.charAt(0).toUpperCase() : "A"}
-              </div>
-              <div className="user-details">
-                <div className="user-name">{user.name || "Admin"}</div>
-                <div className="user-email">{user.email || ""}</div>
-              </div>
-            </div>
-          )}
+        <div className="admin-sidebar-footer">
+          <Link to="/" target="_blank" className="admin-public-link-btn">
+            <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <ExternalLink size={15} style={{ color: "var(--accent-orange)" }} />
+              <span>Live Website</span>
+            </span>
+            <ChevronRight size={14} />
+          </Link>
 
           <button
-            className="logout-btn"
-            id="admin-sidebar-logout-btn"
             onClick={handleLogout}
             disabled={loggingOut}
+            className="admin-logout-btn"
           >
-            🚪 {loggingOut ? "Logging out..." : "Logout"}
+            <LogOut size={16} />
+            <span>{loggingOut ? "Signing out..." : "Sign Out"}</span>
           </button>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <div className="admin-main">
-        <header className="admin-header">
-          <h1 className="header-title">{title}</h1>
-          <div className="admin-header-actions">
+      {/* Main Content Stage */}
+      <div className="admin-main-stage">
+        <header className="admin-top-header">
+          <div className="admin-header-title-wrap">
+            <button
+              className="admin-mobile-toggle"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label="Toggle Navigation"
+            >
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+            <h1 className="admin-header-h1">{title}</h1>
+          </div>
+
+          <div className="admin-header-controls">
             <button
               onClick={toggleTheme}
               className="admin-theme-btn"
-              title="Toggle Light/Dark Theme"
+              title={`Switch to ${theme === "dark" ? "Light" : "Dark"} Mode`}
             >
-              <span>{theme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode"}</span>
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
-            <button
-              className="mobile-toggle"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              ☰
-            </button>
+
+            <div className="admin-user-badge">
+              <div className="admin-avatar-circle">
+                {user?.name ? user.name[0].toUpperCase() : "A"}
+              </div>
+              <span className="admin-user-email">
+                {user?.email || "adila@bpract.com"}
+              </span>
+            </div>
           </div>
         </header>
 
-        <main className="admin-body">{children}</main>
+        <main className="admin-content-body">{children}</main>
       </div>
     </div>
   );

@@ -1,15 +1,30 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  FolderGit2,
+  Zap,
+  Briefcase,
+  GraduationCap,
+  Mail,
+  Sparkles,
+  ExternalLink,
+  Plus,
+  User,
+  FileText,
+  Activity,
+  CheckCircle2,
+} from "lucide-react";
 import AdminLayout from "./AdminLayout";
 import { getAdminUser } from "../utils/auth";
-import { Link } from "react-router-dom";
 import apiClient from "../utils/apiClient";
 
 const AdminDashboard = () => {
   const user = getAdminUser();
   const [counts, setCounts] = useState({
-    projects: "4",
-    skills: "12",
-    experience: "3",
+    projects: "3",
+    skills: "8",
+    experience: "2",
     education: "2",
     contacts: "0",
   });
@@ -20,26 +35,29 @@ const AdminDashboard = () => {
 
   const fetchDashboardStats = async () => {
     try {
-      const [projRes, skillsRes, expRes, eduRes, contactRes] = await Promise.allSettled([
-        apiClient.get("/api/admin/projects"),
-        apiClient.get("/api/admin/skills"),
-        apiClient.get("/api/admin/experience"),
-        apiClient.get("/api/admin/education"),
-        apiClient.get("/api/admin/contacts"),
-      ]);
+      const [projRes, skillsRes, expRes, eduRes, contactRes] =
+        await Promise.allSettled([
+          apiClient.get("/api/admin/projects"),
+          apiClient.get("/api/admin/skills"),
+          apiClient.get("/api/admin/experience"),
+          apiClient.get("/api/admin/education"),
+          apiClient.get("/api/admin/contacts"),
+        ]);
 
       const parseCount = (res, defaultVal) => {
         if (res.status === "fulfilled" && res.value?.data) {
-          const data = res.value.data.status ? res.value.data.data : res.value.data;
+          const data = res.value.data.status
+            ? res.value.data.data
+            : res.value.data;
           if (Array.isArray(data)) return String(data.length);
         }
         return defaultVal;
       };
 
       setCounts({
-        projects: parseCount(projRes, "4"),
-        skills: parseCount(skillsRes, "12"),
-        experience: parseCount(expRes, "3"),
+        projects: parseCount(projRes, "3"),
+        skills: parseCount(skillsRes, "8"),
+        experience: parseCount(expRes, "2"),
         education: parseCount(eduRes, "2"),
         contacts: parseCount(contactRes, "0"),
       });
@@ -48,252 +66,502 @@ const AdminDashboard = () => {
     }
   };
 
-  const stats = [
+  const statCards = [
     {
-      title: "Projects",
+      title: "Backend Projects",
       count: counts.projects,
-      icon: "📂",
+      icon: FolderGit2,
       path: "/admin/projects",
-      color: "linear-gradient(135deg, #a855f7, #6366f1)",
-      shadow: "rgba(168, 85, 247, 0.3)",
+      badge: "LIVE WORKS",
+      color: "var(--accent-orange)",
     },
     {
-      title: "Skills",
+      title: "Skills & Stack",
       count: counts.skills,
-      icon: "⚡",
+      icon: Zap,
       path: "/admin/skills",
-      color: "linear-gradient(135deg, #3b82f6, #06b6d4)",
-      shadow: "rgba(59, 130, 246, 0.3)",
+      badge: "TECH ARSENAL",
+      color: "#3b82f6",
     },
     {
-      title: "Experience",
+      title: "Work Experience",
       count: counts.experience,
-      icon: "💼",
+      icon: Briefcase,
       path: "/admin/experience",
-      color: "linear-gradient(135deg, #10b981, #059669)",
-      shadow: "rgba(16, 185, 129, 0.3)",
+      badge: "COMPANIES",
+      color: "#10b981",
     },
     {
       title: "Education",
       count: counts.education,
-      icon: "🎓",
+      icon: GraduationCap,
       path: "/admin/education",
-      color: "linear-gradient(135deg, #f59e0b, #d97706)",
-      shadow: "rgba(245, 158, 11, 0.3)",
+      badge: "ACADEMIC",
+      color: "#f59e0b",
     },
     {
-      title: "Contact",
+      title: "Contact Messages",
       count: counts.contacts,
-      icon: "✉️",
+      icon: Mail,
       path: "/admin/contact",
-      color: "linear-gradient(135deg, #ec4899, #f43f5e)",
-      shadow: "rgba(236, 72, 153, 0.3)",
+      badge: "INBOX",
+      color: "#ec4899",
     },
   ];
 
   return (
-    <AdminLayout title="Dashboard">
+    <AdminLayout title="Dashboard Overview">
       <style>{`
-        .dashboard-welcome {
-          background: var(--bg-surface);
-          border: 1px solid var(--border-glow);
+        .dash-overview-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 36px;
+        }
+
+        /* Hero Welcome Banner */
+        .dash-welcome-card {
+          background: var(--hero-terracotta-gradient);
           border-radius: 24px;
-          padding: 32px 36px;
-          margin-bottom: 36px;
-          backdrop-filter: blur(16px);
+          padding: 40px 48px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 16px 40px rgba(234, 88, 12, 0.25);
           position: relative;
           overflow: hidden;
-          box-shadow: var(--shadow-card);
-        }
-
-        .dashboard-welcome::after {
-          content: '';
-          position: absolute;
-          top: -50%;
-          right: -10%;
-          width: 300px;
-          height: 300px;
-          border-radius: 50%;
-          background: var(--glow-radial);
-          pointer-events: none;
-        }
-
-        .welcome-badge {
-          display: inline-block;
-          padding: 4px 12px;
-          background: rgba(168, 85, 247, 0.2);
-          border: 1px solid rgba(168, 85, 247, 0.35);
-          color: var(--accent-purple);
-          border-radius: 20px;
-          font-size: 0.8rem;
-          font-weight: 700;
-          letter-spacing: 0.05em;
-          text-transform: uppercase;
-          margin-bottom: 12px;
-        }
-
-        .dashboard-welcome h2 {
-          margin: 0 0 10px 0;
-          font-size: 2rem;
-          font-weight: 800;
-          letter-spacing: -0.025em;
-          color: var(--text-main);
-        }
-
-        .dashboard-welcome p {
-          margin: 0;
-          color: var(--text-muted);
-          font-size: 1.02rem;
-          line-height: 1.6;
-          max-width: 720px;
-        }
-
-        .stats-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-          gap: 22px;
-          margin-bottom: 36px;
-        }
-
-        .stat-card {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: 22px;
-          padding: 24px;
-          text-decoration: none;
-          color: inherit;
+          color: #ffffff;
           display: flex;
           align-items: center;
           justify-content: space-between;
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: var(--shadow-card);
+          flex-wrap: wrap;
+          gap: 24px;
         }
 
-        .stat-card:hover {
-          transform: translateY(-5px);
-          border-color: var(--border-glow);
-          box-shadow: var(--shadow-lg);
-        }
-
-        .stat-info .stat-title {
-          font-size: 0.92rem;
-          color: var(--text-muted);
-          margin-bottom: 6px;
-          font-weight: 600;
-        }
-
-        .stat-info .stat-count {
-          font-size: 2.1rem;
-          font-weight: 800;
-          color: var(--text-main);
-          letter-spacing: -0.03em;
-        }
-
-        .stat-icon-wrapper {
-          width: 56px;
-          height: 56px;
-          border-radius: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.6rem;
-          transition: transform 0.3s ease;
+        .dash-welcome-text h2 {
+          font-family: var(--font-display);
+          font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+          font-weight: 900;
+          letter-spacing: -0.02em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
           color: #ffffff;
         }
 
-        .stat-card:hover .stat-icon-wrapper {
-          transform: scale(1.08);
+        .dash-welcome-text p {
+          font-size: 1rem;
+          color: rgba(255, 255, 255, 0.9);
+          max-width: 540px;
+          line-height: 1.6;
         }
 
-        .section-box {
-          background: var(--bg-card);
-          border: 1px solid var(--border-color);
-          border-radius: 24px;
-          padding: 30px 34px;
-          box-shadow: var(--shadow-card);
-        }
-
-        .section-box h3 {
-          margin: 0 0 20px 0;
-          font-size: 1.25rem;
-          font-weight: 800;
-          color: var(--text-main);
-          letter-spacing: -0.02em;
-        }
-
-        .quick-links {
+        .dash-banner-actions {
           display: flex;
+          align-items: center;
+          gap: 12px;
           flex-wrap: wrap;
-          gap: 14px;
         }
 
-        .quick-link-btn {
+        .dash-btn-white {
+          background: #ffffff;
+          color: #09090b;
+          font-weight: 800;
+          font-size: 0.85rem;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
           padding: 12px 22px;
-          border-radius: 14px;
-          background: var(--input-bg);
-          border: 1px solid var(--border-color);
-          color: var(--text-main);
+          border-radius: 10px;
           text-decoration: none;
-          font-weight: 600;
-          font-size: 0.95rem;
-          transition: all 0.25s ease;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+          transition: all 0.2s ease;
+        }
+
+        .dash-btn-white:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+        }
+
+        .dash-btn-glass {
+          background: rgba(18, 18, 22, 0.6);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: #ffffff;
+          font-weight: 800;
+          font-size: 0.85rem;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          padding: 12px 22px;
+          border-radius: 10px;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          transition: all 0.2s ease;
+        }
+
+        .dash-btn-glass:hover {
+          background: rgba(18, 18, 22, 0.85);
+          transform: translateY(-2px);
+        }
+
+        /* Metric Cards Grid */
+        .dash-stats-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+          gap: 20px;
+        }
+
+        .dash-stat-box {
+          background: var(--bg-surface);
+          border: 1px solid var(--border-subtle);
+          border-radius: 18px;
+          padding: 24px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          text-decoration: none;
+          color: var(--text-light);
+          box-shadow: var(--shadow-sm);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .dash-stat-box:hover {
+          border-color: var(--accent-orange);
+          transform: translateY(-4px);
+          box-shadow: var(--shadow-lg);
+        }
+
+        .dash-stat-top {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 16px;
+        }
+
+        .dash-stat-icon-wrap {
+          width: 44px;
+          height: 44px;
+          border-radius: 12px;
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-light);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: var(--accent-orange);
+        }
+
+        .dash-stat-badge {
+          font-size: 0.68rem;
+          font-weight: 800;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: var(--text-dim);
+        }
+
+        .dash-stat-count {
+          font-family: var(--font-display);
+          font-size: 2.8rem;
+          font-weight: 900;
+          color: var(--text-pure-white);
+          line-height: 1;
+          margin-bottom: 6px;
+        }
+
+        .dash-stat-title {
+          font-size: 0.88rem;
+          font-weight: 700;
+          color: var(--text-muted);
+        }
+
+        /* Lower Grid: Quick Management & System Status */
+        .dash-bottom-grid {
+          display: grid;
+          grid-template-columns: 1.4fr 0.8fr;
+          gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+          .dash-bottom-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .dash-panel-card {
+          background: var(--bg-surface);
+          border: 1px solid var(--border-subtle);
+          border-radius: 20px;
+          padding: 28px;
+          box-shadow: var(--shadow-sm);
+        }
+
+        .dash-panel-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 24px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .dash-panel-title {
+          font-family: var(--font-display);
+          font-size: 1.15rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.02em;
+          color: var(--text-pure-white);
           display: flex;
           align-items: center;
           gap: 8px;
         }
 
-        .quick-link-btn:hover {
-          background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(59, 130, 246, 0.2));
-          border-color: var(--border-glow);
-          color: var(--text-main);
+        /* Quick Action Tiles */
+        .dash-quick-links-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 14px;
+        }
+
+        @media (max-width: 640px) {
+          .dash-quick-links-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        .dash-quick-tile {
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-subtle);
+          border-radius: 14px;
+          padding: 16px;
+          text-decoration: none;
+          color: var(--text-light);
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          transition: all 0.2s ease;
+        }
+
+        .dash-quick-tile:hover {
+          border-color: var(--accent-orange);
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2);
+        }
+
+        .dash-quick-tile-icon {
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          background: rgba(240, 90, 40, 0.12);
+          border: 1px solid rgba(240, 90, 40, 0.25);
+          color: var(--accent-orange);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .dash-quick-tile-text h4 {
+          font-size: 0.9rem;
+          font-weight: 800;
+          color: var(--text-pure-white);
+          margin-bottom: 2px;
+        }
+
+        .dash-quick-tile-text p {
+          font-size: 0.75rem;
+          color: var(--text-muted);
+          margin: 0;
+        }
+
+        /* System Info List */
+        .dash-sys-list {
+          display: flex;
+          flex-direction: column;
+          gap: 14px;
+        }
+
+        .dash-sys-item {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 12px 16px;
+          border-radius: 12px;
+          background: var(--bg-surface-elevated);
+          border: 1px solid var(--border-subtle);
+          font-size: 0.85rem;
+        }
+
+        .dash-sys-label {
+          color: var(--text-muted);
+          font-weight: 600;
+        }
+
+        .dash-sys-val {
+          font-weight: 800;
+          color: var(--text-pure-white);
+          display: flex;
+          align-items: center;
+          gap: 6px;
         }
       `}</style>
 
-      <div className="dashboard-welcome">
-        <div className="welcome-badge">System Ready</div>
-        <h2>Welcome back{user?.name ? `, ${user.name}` : ""}! 👋</h2>
-        <p>
-          Manage your portfolio projects, tech skills, work history, academic background, and visitor contact submissions seamlessly from one modern workspace.
-        </p>
-      </div>
-
-      <div className="stats-grid">
-        {stats.map((item) => (
-          <Link key={item.title} to={item.path} className="stat-card">
-            <div className="stat-info">
-              <div className="stat-title">{item.title}</div>
-              <div className="stat-count">{item.count}</div>
-            </div>
+      <div className="dash-overview-wrap">
+        {/* Welcome Card */}
+        <motion.div
+          className="dash-welcome-card"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="dash-welcome-text">
             <div
-              className="stat-icon-wrapper"
-              style={{ background: item.color, boxShadow: `0 8px 22px ${item.shadow}` }}
+              style={{
+                fontSize: "0.78rem",
+                fontWeight: "800",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                marginBottom: "6px",
+                opacity: 0.9,
+              }}
             >
-              {item.icon}
+              ✱ BACKEND CONTROL CENTER
             </div>
-          </Link>
-        ))}
-      </div>
+            <h2>WELCOME BACK, {user?.name?.split(" ")[0]?.toUpperCase() || "ADILA"}</h2>
+            <p>
+              Manage your backend portfolio content, project case studies, API skills stack, resume documents, and client inquiries from one central hub.
+            </p>
+          </div>
 
-      <div className="section-box">
-        <h3>Quick Navigation</h3>
-        <div className="quick-links">
-          <Link to="/admin/projects" className="quick-link-btn">
-            <span>📂</span> View Projects
-          </Link>
-          <Link to="/admin/skills" className="quick-link-btn">
-            <span>⚡</span> Manage Skills
-          </Link>
-          <Link to="/admin/experience" className="quick-link-btn">
-            <span>💼</span> Work Experience
-          </Link>
-          <Link to="/admin/education" className="quick-link-btn">
-            <span>🎓</span> Education Records
-          </Link>
-          <Link to="/admin/contact" className="quick-link-btn">
-            <span>✉️</span> Contact Submissions
-          </Link>
+          <div className="dash-banner-actions">
+            <Link to="/admin/projects" className="dash-btn-white">
+              <Plus size={16} />
+              <span>Add Project</span>
+            </Link>
+            <Link to="/" target="_blank" className="dash-btn-glass">
+              <ExternalLink size={16} />
+              <span>View Live Site</span>
+            </Link>
+          </div>
+        </motion.div>
+
+        {/* Metric Cards Grid */}
+        <div className="dash-stats-grid">
+          {statCards.map((stat, idx) => {
+            const Icon = stat.icon;
+            return (
+              <motion.div
+                key={stat.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.08, duration: 0.5 }}
+              >
+                <Link to={stat.path} className="dash-stat-box">
+                  <div className="dash-stat-top">
+                    <div className="dash-stat-icon-wrap">
+                      <Icon size={20} />
+                    </div>
+                    <span className="dash-stat-badge">{stat.badge}</span>
+                  </div>
+
+                  <div>
+                    <div className="dash-stat-count">{stat.count}</div>
+                    <div className="dash-stat-title">{stat.title}</div>
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Lower Dashboard Sections */}
+        <div className="dash-bottom-grid">
+          {/* Quick Content Navigation */}
+          <div className="dash-panel-card">
+            <div className="dash-panel-header">
+              <div className="dash-panel-title">
+                <Sparkles size={18} style={{ color: "var(--accent-orange)" }} />
+                <span>Quick Portfolio Actions</span>
+              </div>
+            </div>
+
+            <div className="dash-quick-links-grid">
+              <Link to="/admin/about" className="dash-quick-tile">
+                <div className="dash-quick-tile-icon">
+                  <User size={18} />
+                </div>
+                <div className="dash-quick-tile-text">
+                  <h4>Edit Profile & Bio</h4>
+                  <p>Update headline & summary</p>
+                </div>
+              </Link>
+
+              <Link to="/admin/projects" className="dash-quick-tile">
+                <div className="dash-quick-tile-icon">
+                  <FolderGit2 size={18} />
+                </div>
+                <div className="dash-quick-tile-text">
+                  <h4>Manage Projects</h4>
+                  <p>Add case studies & tags</p>
+                </div>
+              </Link>
+
+              <Link to="/admin/skills" className="dash-quick-tile">
+                <div className="dash-quick-tile-icon">
+                  <Zap size={18} />
+                </div>
+                <div className="dash-quick-tile-text">
+                  <h4>Tech Stack</h4>
+                  <p>Laravel, Node, MySQL</p>
+                </div>
+              </Link>
+
+              <Link to="/admin/resume" className="dash-quick-tile">
+                <div className="dash-quick-tile-icon">
+                  <FileText size={18} />
+                </div>
+                <div className="dash-quick-tile-text">
+                  <h4>Upload Resume</h4>
+                  <p>Manage PDF & CV preview</p>
+                </div>
+              </Link>
+            </div>
+          </div>
+
+          {/* System & API Status */}
+          <div className="dash-panel-card">
+            <div className="dash-panel-header">
+              <div className="dash-panel-title">
+                <Activity size={18} style={{ color: "var(--accent-orange)" }} />
+                <span>API & Environment</span>
+              </div>
+            </div>
+
+            <div className="dash-sys-list">
+              <div className="dash-sys-item">
+                <span className="dash-sys-label">API Gateway</span>
+                <span className="dash-sys-val">
+                  <CheckCircle2 size={14} style={{ color: "#10b981" }} />
+                  <span style={{ color: "#10b981" }}>Connected</span>
+                </span>
+              </div>
+
+              <div className="dash-sys-item">
+                <span className="dash-sys-label">Primary Role</span>
+                <span className="dash-sys-val">Backend Developer</span>
+              </div>
+
+              <div className="dash-sys-item">
+                <span className="dash-sys-label">Active Stack</span>
+                <span className="dash-sys-val">Laravel + React</span>
+              </div>
+
+              <div className="dash-sys-item">
+                <span className="dash-sys-label">Database</span>
+                <span className="dash-sys-val">MySQL / Eloquent</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </AdminLayout>
