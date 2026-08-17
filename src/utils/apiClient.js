@@ -1,11 +1,8 @@
 import axios from "axios";
 import { getAdminToken } from "./auth";
 
-const apiBaseURL =
-  (process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000").replace(
-    /\/$/,
-    ""
-  );
+const rawURL = process.env.REACT_APP_API_BASE_URL || "http://127.0.0.1:8000";
+const apiBaseURL = rawURL.trim().replace(/\/+$/, "");
 
 const apiClient = axios.create({
   baseURL: apiBaseURL,
@@ -22,6 +19,15 @@ apiClient.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+
+  // Interceptor fix: Clean up malformed endpoint paths
+  if (config.url) {
+    // Strips out leading "/admin/http://..." or "http://..." from the endpoint path
+    config.url = config.url
+      .replace(/^(\/admin\/)?https?:\/\/[^/]+/, "")
+      .replace(/^\/admin\/api\//, "/api/");
+  }
+
   return config;
 });
 
