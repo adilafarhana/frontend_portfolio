@@ -74,7 +74,7 @@ const Home = () => {
     "Full Stack Developer specializing in responsive frontend architectures, robust backend APIs, and modern web applications.";
   const displayAvatar = about?.profile_image
     ? getMediaUrl(about.profile_image)
-    : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&auto=format&fit=crop&q=80";
+    : "";
 
   const featuredProjects = projects.slice(0, 3);
   const topSkills = skills.slice(0, 8);
