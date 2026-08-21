@@ -2,12 +2,7 @@ import axios from "axios";
 import { getAdminToken } from "./auth";
 
 // 1. Fallback to REACT_APP_API_URL and your live domain
-const rawURL =
-  process.env.REACT_APP_API_BASE_URL ||
-  process.env.REACT_APP_API_URL ||
-  "http://adilaportfolio.gt.tc";
-
-const apiBaseURL = rawURL.replace(/\/$/, "");
+const apiBaseURL = (process.env.REACT_APP_API_BASE_URL || process.env.REACT_APP_API_URL || "").replace(/\/$/, "");
 
 const apiClient = axios.create({
   baseURL: apiBaseURL,
