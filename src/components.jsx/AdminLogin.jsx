@@ -4,8 +4,8 @@ import apiClient from "../utils/apiClient";
 import { setAdminUser, isLoggedIn, clearAdminUser, getAdminUser } from "../utils/auth";
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState("adila@gmail.com");
-  const [password, setPassword] = useState("12345678");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);

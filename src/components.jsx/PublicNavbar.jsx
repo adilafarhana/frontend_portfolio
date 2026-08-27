@@ -36,7 +36,7 @@ const PublicNavbar = () => {
   const brandName = displayName.split(" ")[0].toUpperCase() || "PORTIX";
   const displayAvatar = about?.profile_image
     ? getMediaUrl(about.profile_image)
-    : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80";
+    : "https://i.pinimg.com/originals/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg?nii=t";
 
   const isActive = (path) => {
     if (path === "/" && location.pathname === "/") return true;

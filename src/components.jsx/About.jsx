@@ -51,7 +51,7 @@ const About = () => {
   const displayTitle = aboutData?.professional_title || "Full-Stack Developer";
   const displayAvatar = aboutData?.profile_image
     ? getMediaUrl(aboutData.profile_image)
-    : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80";
+    : "https://i.pinimg.com/originals/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg?nii=t";
 
   return (
     <div className="portix-about-page">
