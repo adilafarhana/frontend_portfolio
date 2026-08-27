@@ -184,26 +184,25 @@ const Home = () => {
         }
 
         .hero-editorial-headline {
-          font-size: 4rem;
-          font-weight: 900;
-          line-height: 1.05;
-          letter-spacing: -0.03em;
-          text-transform: uppercase;
+          font-size: 2.5rem;
+          font-weight: 800;
+          line-height: 1.25;
+          letter-spacing: -0.02em;
           color: var(--text-pure-white);
-          margin-bottom: 24px;
+          margin-bottom: 18px;
         }
 
         @media (max-width: 768px) {
           .hero-editorial-headline {
-            font-size: 2.8rem;
+            font-size: 1.8rem;
           }
         }
 
         .hero-bio-summary {
-          font-size: 1.1rem;
+          font-size: 1rem;
           color: var(--text-muted);
-          line-height: 1.7;
-          margin-bottom: 36px;
+          line-height: 1.6;
+          margin-bottom: 28px;
           max-width: 540px;
         }
 
@@ -595,9 +594,7 @@ const Home = () => {
             </div>
 
             <h1 className="hero-editorial-headline">
-              <span>DESIGN</span> <span className="text-outline">THAT</span><br />
-              <span>CONVERTS VISITORS</span><br />
-              <span className="text-outline">INTO USERS</span>
+              <span>Hi, I'm {displayName}</span>
             </h1>
 
             <p className="hero-bio-summary">{displayIntro}</p>

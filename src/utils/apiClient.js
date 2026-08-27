@@ -51,11 +51,7 @@
 import axios from "axios";
 import { getAdminToken } from "./auth";
 
-const apiBaseURL = (
-  process.env.REACT_APP_API_BASE_URL ||
-  process.env.REACT_APP_API_URL ||
-  "http://127.0.0.1:8000"
-).replace(/\/$/, "");
+const apiBaseURL = "https://adilaportfolio.gt.tc/";
 
 const apiClient = axios.create({
   baseURL: apiBaseURL,
@@ -78,16 +74,19 @@ apiClient.interceptors.request.use((config) => {
 export const getMediaUrl = (path) => {
   if (!path) return "";
 
+  // Replace localhost/127.0.0.1 with empty string for relative paths
+  let cleaned = path.replace(/http:\/\/(127\.0\.0\.1|localhost):8000/g, "");
+
   if (
-    path.startsWith("http://") ||
-    path.startsWith("https://") ||
-    path.startsWith("blob:") ||
-    path.startsWith("data:")
+    cleaned.startsWith("http://") ||
+    cleaned.startsWith("https://") ||
+    cleaned.startsWith("blob:") ||
+    cleaned.startsWith("data:")
   ) {
-    return path;
+    return cleaned;
   }
 
-  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+  const cleanPath = cleaned.startsWith("/") ? cleaned : `/${cleaned}`;
   return `${apiBaseURL}${cleanPath}`;
 };
 
