@@ -372,7 +372,14 @@ const AdminLayout = ({ children, title = "Admin Panel" }) => {
           {user && (
             <div className="user-info">
               <div className="user-avatar">
-                {user.name ? user.name.charAt(0).toUpperCase() : "A"}
+                <img
+                  src="/profile.jpg"
+                  alt="Admin"
+                  style={{ width: "100%", height: "100%", borderRadius: "50%", objectFit: "cover" }}
+                  onError={(e) => {
+                    e.target.style.display = "none";
+                  }}
+                />
               </div>
               <div className="user-details">
                 <div className="user-name">{user.name || "Admin"}</div>

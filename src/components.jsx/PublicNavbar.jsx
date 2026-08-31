@@ -36,7 +36,7 @@ const PublicNavbar = () => {
   const brandName = displayName.split(" ")[0].toUpperCase() || "PORTIX";
   const displayAvatar = about?.profile_image
     ? getMediaUrl(about.profile_image)
-    : "https://i.pinimg.com/originals/83/bc/8b/83bc8b88cf6bc4b4e04d153a418cde62.jpg?nii=t";
+    : "/profile.jpg";
 
   const isActive = (path) => {
     if (path === "/" && location.pathname === "/") return true;
@@ -50,10 +50,11 @@ const PublicNavbar = () => {
         .portix-navbar-header {
           position: sticky;
           top: 0;
-          z-index: 1000;
-          background: var(--nav-bg);
-          backdrop-filter: blur(16px);
-          border-bottom: 1px solid var(--border-subtle);
+          width: 100%;
+          background: rgba(13, 17, 23, 0.85);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          z-index: 999;
+          backdrop-filter: blur(20px);
           padding: 20px 40px;
           transition: all 0.3s ease;
           font-family: var(--font-main);
@@ -239,7 +240,15 @@ const PublicNavbar = () => {
 
       <div className="portix-nav-container">
         <Link to="/" className="portix-brand-logo">
-          <img src={displayAvatar} alt={displayName} className="portix-brand-badge" />
+          <img
+            src={displayAvatar}
+            alt={displayName}
+            className="portix-brand-badge"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/profile.jpg";
+            }}
+          />
           <span>{brandName}</span>
         </Link>
 

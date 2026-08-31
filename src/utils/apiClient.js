@@ -51,7 +51,8 @@
 import axios from "axios";
 import { getAdminToken } from "./auth";
 
-const apiBaseURL = "https://adilaportfolio.gt.tc/";
+// const apiBaseURL = "https://adilaportfolio.gt.tc/";
+const apiBaseURL = "http://127.0.0.1:8000/";
 
 const apiClient = axios.create({
   baseURL: apiBaseURL,

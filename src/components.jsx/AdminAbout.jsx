@@ -949,19 +949,15 @@ const AdminAbout = () => {
             <div key={item.id} className="about-card">
               <div className="about-card-top">
                 <div className="about-avatar-wrapper">
-                  {item.profile_image ? (
-                    <img
-                      src={getMediaUrl(item.profile_image)}
-                      alt={item.full_name}
-                      className="about-avatar-img"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80";
-                      }}
-                    />
-                  ) : (
-                    <span className="about-avatar-placeholder">👤</span>
-                  )}
+                  <img
+                    src={item.profile_image ? getMediaUrl(item.profile_image) : "/profile.jpg"}
+                    alt={item.full_name}
+                    className="about-avatar-img"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/profile.jpg";
+                    }}
+                  />
                 </div>
 
                 <div className="about-header-info">
@@ -1283,15 +1279,15 @@ const AdminAbout = () => {
             <div className="modal-body">
               <div style={{ display: "flex", gap: "20px", alignItems: "center", marginBottom: "20px" }}>
                 <div className="about-avatar-wrapper" style={{ width: "90px", height: "90px" }}>
-                  {selectedAbout.profile_image ? (
-                    <img
-                      src={getMediaUrl(selectedAbout.profile_image)}
-                      alt={selectedAbout.full_name}
-                      className="about-avatar-img"
-                    />
-                  ) : (
-                    <span style={{ fontSize: "2.5rem" }}>👤</span>
-                  )}
+                  <img
+                    src={selectedAbout.profile_image ? getMediaUrl(selectedAbout.profile_image) : "/profile.jpg"}
+                    alt={selectedAbout.full_name}
+                    className="about-avatar-img"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/profile.jpg";
+                    }}
+                  />
                 </div>
 
                 <div>
